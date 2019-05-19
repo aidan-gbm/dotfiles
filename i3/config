@@ -21,7 +21,7 @@ bindsym $mod+Shift+r restart
 bindsym $mod+q kill
 
 # Lock Screen
-bindsym $mod+F1 exec --no-startup-id i3lock -i /home/gbm/Pictures/lock/lock1.png
+bindsym $mod+F1 exec --no-startup-id i3lock -i ~/Pictures/admin/lock.png
 
 # Log Out
 bindsym $mod+F2 exec i3-msg exit
@@ -85,28 +85,13 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-# Main Programs
-mode "open" {
-
-	bindsym t exec i3-sensible-terminal; mode "default"
-	bindsym b exec firefox; mode "default"
-	bindsym h exec haroopad; mode "default"
-	bindsym e exec code; mode "default"
-	bindsym s exec slack; mode "default"
-	bindsym f exec thunar; mode "default"
-	bindsym z exec burpsuite; mode "default"
-	bindsym m exec spotify; mode "default"
-
-	bindsym Escape mode "default"
-	bindsym $mod+r mode "default"
-}
-
-bindsym $mod+d exec dmenu_run
-bindsym $mod+o mode "open"
+# Open Programs
+bindsym $mod+t exec i3-sensible-terminal
+bindsym $mod+Return exec dmenu_run
 
 # Audio Controls
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5%
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5%
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +3%
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -3%
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle
 
 bindsym XF86AudioPlay exec playerctl play
@@ -121,13 +106,13 @@ bindsym XF86MonBrightnessDown exec xbacklight -dec 20
 ### STARTUP ###
 
 # Desktop Wallpaper
-exec --no-startup-id nitrogen --restore
+exec ~/.fehbg &
 
 # Network Manager
 exec --no-startup-id nm-applet
 
 # Auto Locker (default 10 min)
-exec --no-startup-id xautolock -locker "i3lock -i /home/gbm/Pictures/lock/lock1.png"
+exec --no-startup-id xautolock -locker "i3lock -i ~/Pictures/admin/lock.png"
 
 # Compton
 exec --no-startup-id compton -bG --config ~/.config/compton.conf
@@ -135,8 +120,9 @@ exec --no-startup-id compton -bG --config ~/.config/compton.conf
 ### THEME ###
 
 # Layout colors
-set $FOCUS #18296d
-set $UNFOCUS #3c3b37
+#set $FOCUS #91a2bf
+set $UNFOCUS #203aa3
+set $FOCUS #a51d24
 
 # Instance		Border		BG		Text		Indicator
 client.focused		$FOCUS		$FOCUS		$FOCUS		$FOCUS
@@ -146,7 +132,7 @@ client.urgent		$FOCUS		$FOCUS		$FOCUS		$FOCUS
 client.background	$UNFOCUS
 
 # Font
-font pango:monospace 8
+font xft: Noto Mono 10
 
 # Borders
 new_window pixel 4
@@ -241,3 +227,4 @@ bindsym $mod+Shift+0 move container to workspace $ws10
 bar {
         status_command i3blocks
 }
+

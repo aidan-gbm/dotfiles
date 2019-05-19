@@ -1,0 +1,4 @@
+#!/bin/sh
+
+tee /proc/acpi/bbswitch <<OFF
+
