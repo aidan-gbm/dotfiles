@@ -1,0 +1,230 @@
+### GLOBAL ###
+set $mod Mod4
+set $left h
+set $down j
+set $up k
+set $right l
+
+### SHORTCUTS ###
+
+# Split
+bindsym $mod+n split h
+bindsym $mod+m split v
+
+# Reload Configuration File
+bindsym $mod+Shift+c reload
+
+# Restart i3 (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+
+# Kill Program
+bindsym $mod+q kill
+
+# Lock Screen
+bindsym $mod+F1 exec --no-startup-id i3lock -i ~/Pictures/admin/lock.png
+
+# Log Out
+bindsym $mod+F2 exec i3-msg exit
+
+# Change Focus
+bindsym $mod+$left focus left
+bindsym $mod+$down focus down
+bindsym $mod+$up focus up
+bindsym $mod+$right focus right
+
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+bindsym $mod+p focus parent
+bindsym $mod+c focus child
+
+# Move Window
+bindsym $mod+Shift+$left move left
+bindsym $mod+Shift+$down move down
+bindsym $mod+Shift+$up move up
+bindsym $mod+Shift+$right move right
+
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# Screenshot
+mode "screenshot" {
+
+	bindsym Enter exec scrot -e 'mv $f ~/Pictures/scrot/'; mode "default"
+	bindsym --release s exec scrot -s -e 'mv $f ~/Pictures/scrot/'; mode "default"
+	bindsym w exec scrot -u -e 'mv $f ~/Pictures/scrot/'; mode "default"
+	bindsym m exec scrot -m -e 'mv $f ~/Pictures/scrot/'; mode "default"
+
+	bindsym Escape mode "default"
+	bindsym $mod+s mode "default"
+
+}
+
+bindsym $mod+s mode "screenshot"
+
+# Resize Window
+mode "resize" {
+
+        bindsym $left resize shrink width 10 px or 10 ppt
+        bindsym $down resize grow height 10 px or 10 ppt
+        bindsym $up resize shrink height 10 px or 10 ppt
+        bindsym $right resize grow width 10 px or 10 ppt
+
+        bindsym Left resize shrink width 10 px or 10 ppt
+        bindsym Down resize grow height 10 px or 10 ppt
+        bindsym Up resize shrink height 10 px or 10 ppt
+        bindsym Right resize grow width 10 px or 10 ppt
+
+        bindsym Escape mode "default"
+        bindsym $mod+r mode "default"
+}
+
+bindsym $mod+r mode "resize"
+
+# Open Programs
+bindsym $mod+t exec i3-sensible-terminal
+bindsym $mod+Return exec dmenu_run
+
+# Audio Controls
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +3%
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -3%
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle
+
+bindsym XF86AudioPlay exec playerctl play
+bindsym XF86AudioPause exec playerctl pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
+
+# Brightness Controls
+bindsym XF86MonBrightnessUp exec xbacklight -inc 20
+bindsym XF86MonBrightnessDown exec xbacklight -dec 20
+
+### STARTUP ###
+
+# Desktop Wallpaper
+exec ~/.fehbg &
+
+# Network Manager
+exec --no-startup-id nm-applet
+
+# Auto Locker (default 10 min)
+exec --no-startup-id xautolock -locker "i3lock -i ~/Pictures/admin/lock.png"
+
+# Compton
+exec --no-startup-id compton -bG --config ~/.config/compton.conf
+
+### THEME ###
+
+# Layout colors
+#set $FOCUS #91a2bf
+set $UNFOCUS #203aa3
+set $FOCUS #a51d24
+
+# Instance		Border		BG		Text		Indicator
+client.focused		$FOCUS		$FOCUS		$FOCUS		$FOCUS
+client.focused_inactive	$UNFOCUS	$UNFOCUS	$UNFOCUS	$UNFOCUS
+client.unfocused	$UNFOCUS	$UNFOCUS	$UNFOCUS	$UNFOCUS
+client.urgent		$FOCUS		$FOCUS		$FOCUS		$FOCUS
+client.background	$UNFOCUS
+
+# Font
+font xft: Noto Mono 10
+
+# Borders
+new_window pixel 4
+new_float pixel 4
+
+focus_follows_mouse no
+
+### GAPS ###
+
+for_window [class="^.*"] border pixel 3
+
+gaps inner 12
+gaps outer 0
+
+# Gaps mode
+set $mode_gaps Gaps: (o) outer, (i) inner
+set $mode_gaps_outer Outer Gaps: +|-|0 (local), Shift + +|-|0 (global)
+set $mode_gaps_inner Inner Gaps: +|-|0 (local), Shift + +|-|0 (global)
+bindsym $mod+Shift+g mode "$mode_gaps"
+
+mode "$mode_gaps" {
+        bindsym o      mode "$mode_gaps_outer"
+        bindsym i      mode "$mode_gaps_inner"
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+mode "$mode_gaps_inner" {
+        bindsym plus  gaps inner current plus 5
+        bindsym minus gaps inner current minus 5
+        bindsym 0     gaps inner current set 0
+
+        bindsym Shift+plus  gaps inner all plus 5
+        bindsym Shift+minus gaps inner all minus 5
+        bindsym Shift+0     gaps inner all set 0
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+mode "$mode_gaps_outer" {
+        bindsym plus  gaps outer current plus 5
+        bindsym minus gaps outer current minus 5
+        bindsym 0     gaps outer current set 0
+
+        bindsym Shift+plus  gaps outer all plus 5
+        bindsym Shift+minus gaps outer all minus 5
+        bindsym Shift+0     gaps outer all set 0
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+### WORKSPACES ###
+
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "0"
+
+# Switch Workspace
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+bindsym $mod+0 workspace $ws10
+
+# Move Container to Workspace
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9
+bindsym $mod+Shift+0 move container to workspace $ws10
+
+### BAR ###
+bar {
+        status_command i3blocks
+}
+
