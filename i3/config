@@ -44,6 +44,14 @@ bindsym $mod+Shift+space exec $i3-wm.program.launcher.cmd
 set_from_resource $i3-wm.program.file_search i3-wm.program.file_search rofi -show find -modi find:/usr/share/rofi/modi/finder.sh
 bindsym $mod+$alt+space exec $i3-wm.program.file_search
 
+## Launch // File Browser // <><Shift> n ##
+set_from_resource $i3-wm.program.files i3-wm.program.files /usr/bin/nautilus --new-window
+bindsym $mod+Shift+n exec $i3-wm.program.files
+
+## Launch // Notification Viewer // <> n ##
+set_from_resource $i3-wm.program.notification_ui i3-wm.program.notification_ui /usr/bin/rofication-gui
+bindsym $mod+n exec $i3-wm.program.notification_ui
+
 ###############################################################################
 # Navigate (Workspaces)
 ###############################################################################
@@ -169,46 +177,12 @@ set_from_resource $i3-wm.program.logout i3-wm.program.logout /usr/bin/gnome-sess
 bindsym $mod+Shift+e exec $i3-wm.program.logout
 
 ###############################################################################
-# System Management
-###############################################################################
-
-## Modify // Settings // <> c ##
-set_from_resource $i3-wm.program.settings i3-wm.program.settings gnome-control-center
-bindsym $mod+c exec $i3-wm.program.settings
-
-## Modify // Display Settings // <> d ##
-set_from_resource $i3-wm.program.display i3-wm.program.display gnome-control-center display
-bindsym $mod+d exec $i3-wm.program.display
-
-## Modify // Wifi Settings // <> w ##
-set_from_resource $i3-wm.program.wifi i3-wm.program.wifi gnome-control-center wifi
-bindsym $mod+w exec $i3-wm.program.wifi
-
-## Modify // Bluetooth Settings // <> b ##
-set_from_resource $i3-wm.program.bluetooth i3-wm.program.bluetooth gnome-control-center bluetooth
-bindsym $mod+b exec $i3-wm.program.bluetooth
-
-## Launch // File Browser // <><Shift> n ##
-set_from_resource $i3-wm.program.files i3-wm.program.files /usr/bin/nautilus --new-window
-bindsym $mod+Shift+n exec $i3-wm.program.files
-
-## Launch // Notification Viewer // <> n ##
-set_from_resource $i3-wm.program.notification_ui i3-wm.program.notification_ui /usr/bin/rofication-gui
-bindsym $mod+n exec $i3-wm.program.notification_ui
-
-###############################################################################
 # Workspace Management
 ###############################################################################
 
-# i3-snapshot for load/save current layout
-## Modify // Save Window Layout // <> , ##
-bindsym $mod+comma  exec /usr/bin/i3-snapshot -o > /tmp/i3-snapshot 
-## Modify // Load Window Layout // <> . ##
-bindsym $mod+period exec /usr/bin/i3-snapshot -c < /tmp/i3-snapshot
-
 # Toggle bar visibility
 ## Modify // Toggle Bar // <> i ##
-bindsym $mod+i bar mode toggle
+bindsym $mod+b bar mode toggle
 
 # Cause Settings app to float above tiled windows
 floating_maximum_size -1 x -1
@@ -220,35 +194,23 @@ for_window [class="Gnome-control-center"] floating enable
 
 ## Resize // Enter Resize Mode // <> r ##
 mode "Resize Mode" {
-        # These bindings trigger as soon as you enter the resize mode
 
         ## Resize // Resize Window // ↑ ↓ ← → ##
-        bindsym Left resize shrink width 6 px or 6 ppt
-        bindsym Down resize grow height 6 px or 6 ppt
-        bindsym Up resize shrink height 6 px or 6 ppt
-        bindsym Right resize grow width 6 px or 6 ppt
+        bindsym Left resize shrink width 2 px or 2 ppt
+        bindsym Down resize grow height 2 px or 2 ppt
+        bindsym Up resize shrink height 2 px or 2 ppt
+        bindsym Right resize grow width 2 px or 2 ppt
 
-        bindsym Shift+Left resize shrink width 12 px or 12 ppt
-        bindsym Shift+Down resize grow height 12 px or 12 ppt
-        bindsym Shift+Up resize shrink height 12 px or 12 ppt
-        bindsym Shift+Right resize grow width 12 px or 12 ppt
-
-        ## Resize // Resize Window // k j h l ##
-        bindsym h resize shrink width 6 px or 6 ppt
-        bindsym k resize grow height 6 px or 6 ppt
-        bindsym j resize shrink height 6 px or 6 ppt
-        bindsym l resize grow width 6 px or 6 ppt
-
-        bindsym Shift+h resize shrink width 12 px or 12 ppt
-        bindsym Shift+k resize grow height 12 px or 12 ppt
-        bindsym Shift+j resize shrink height 12 px or 12 ppt
-        bindsym Shift+l resize grow width 12 px or 12 ppt
+        bindsym Shift+Left resize shrink width 6 px or 6 ppt
+        bindsym Shift+Down resize grow height 6 px or 6 ppt
+        bindsym Shift+Up resize shrink height 6 px or 6 ppt
+        bindsym Shift+Right resize grow width 6 px or 6 ppt
 
         ## Resize // Window Gaps // + - ##
-        bindsym minus gaps inner current minus 6
-        bindsym plus gaps inner current plus 6
-        bindsym Shift+minus gaps inner current minus 12
-        bindsym Shift+plus gaps inner current plus 12
+        bindsym minus gaps inner current minus 2
+        bindsym plus gaps inner current plus 2
+        bindsym Shift+minus gaps inner current minus 6
+        bindsym Shift+plus gaps inner current plus 6
 
         ## Resize // Exit Resize Mode // Escape or Enter ## 
         bindsym Return mode "default"
@@ -268,14 +230,14 @@ default_border pixel $i3-wm.window.border.size
 default_floating_border pixel $i3-wm.floatingwindow.border.size
 
 # Specify the distance between windows in pixels. (i3-gaps)
-set_from_resource $i3-wm.gaps.inner.size i3-wm.gaps.inner.size 5
+set_from_resource $i3-wm.gaps.inner.size i3-wm.gaps.inner.size 12
 set_from_resource $i3-wm.gaps.outer.size i3-wm.gaps.outer.size 0
 gaps inner $i3-wm.gaps.inner.size
 gaps outer $i3-wm.gaps.outer.size
 
 # Only enable gaps on a workspace when there is at least one container
-set_from_resource $i3-wm.gaps.smart i3-wm.gaps.smart on
-smart_gaps $i3-wm.gaps.smart
+#set_from_resource $i3-wm.gaps.smart i3-wm.gaps.smart on
+#smart_gaps $i3-wm.gaps.smart
 
 # Enable popup during fullscreen
 set_from_resource $i3-wm.gaps.popup_during_fullscreen i3-wm.gaps.popup_during_fullscreen smart
@@ -353,7 +315,7 @@ font $i3-wm.font
 
 set_from_resource $i3-wm.bar.position i3-wm.bar.position bottom
 set_from_resource $i3-wm.bar.font i3-wm.bar.font pango:Source Code Pro Medium 13, Material Design Icons 13
-set_from_resource $i3-wm.bar.separator i3-wm.bar.separator " "
+set_from_resource $i3-wm.bar.separator i3-wm.bar.separator "|"
 set_from_resource $i3-wm.bar.trayoutput i3-wm.bar.trayoutput none
 set_from_resource $i3-wm.bar.stripworkspacenumbers i3-wm.bar.stripworkspacenumbers yes
 
