@@ -224,16 +224,14 @@ bindsym $mod+r mode "Resize Mode"
 ###############################################################################
 
 # Disable titlebar
-set_from_resource $i3-wm.window.border.size i3-wm.window.border.size 1
-set_from_resource $i3-wm.floatingwindow.border.size i3-wm.floatingwindow.border.size 1
+set_from_resource $i3-wm.window.border.size i3-wm.window.border.size 2
+set_from_resource $i3-wm.floatingwindow.border.size i3-wm.floatingwindow.border.size 2
 default_border pixel $i3-wm.window.border.size
 default_floating_border pixel $i3-wm.floatingwindow.border.size
 
 # Specify the distance between windows in pixels. (i3-gaps)
-set_from_resource $i3-wm.gaps.inner.size i3-wm.gaps.inner.size 12
-set_from_resource $i3-wm.gaps.outer.size i3-wm.gaps.outer.size 0
-gaps inner $i3-wm.gaps.inner.size
-gaps outer $i3-wm.gaps.outer.size
+gaps inner 8
+gaps outer 12
 
 # Only enable gaps on a workspace when there is at least one container
 #set_from_resource $i3-wm.gaps.smart i3-wm.gaps.smart on
