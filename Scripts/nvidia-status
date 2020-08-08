@@ -1,7 +1,0 @@
-#!/bin/sh
-
-if (grep -q ON /proc/acpi/bbswitch); then
-	echo 'NVIDIA Graphics ON'
-else
-	echo 'NVIDIA Graphics OFF'
-fi
