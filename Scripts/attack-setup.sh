@@ -13,10 +13,11 @@
 # sudo ./autorun.sh
 # sudo reboot
 
-# Setup shared folder for hacking SSD
+# Aliases
 echo "cd ~/hacking/htb; alias htb=\"tmux new-session -s HTB -d 'sudo openvpn ~/hacking/htb/gingerbreadman.ovpn' \\; attach\"" > ~/.bash_aliases
+echo "ipi () { ip a show $1 ; }" >> ~/.bash_aliases
 
-function prompt {
+prompt() {
     echo $1
     read -n 1 -srp 'Press any key to continue...'
     echo
@@ -45,7 +46,10 @@ sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/v
 sudo apt update
 
 # Install programs
-sudo apt install -y curl code git openvpn tmux vim
+sudo apt install -y curl code git openvpn tmux vim nmap ncat python-pip python3-pip gnome-nettool rlwrap tcpdump python-impacket ltrace default-jdk gcc-multilib gdb
+
+# Python Modules
+pip install --user requests colorama pwntools
 
 # Seclists
 mkdir /opt/enum
@@ -54,6 +58,11 @@ git clone https://github.com/danielmiessler/SecLists.git /opt/enum/seclists
 # Get dotfiles
 git clone https://github.com/aidan-mccarthy/dotfiles.git /opt/dotfiles
 cp /opt/dotfiles/vimrc ~/.vimrc
+
+# Metasploit
+curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb > /tmp/msfinstall
+chomd +x /tmp/msfinstall
+/tmp/msfinstall
 
 ## MANUAL INSTALLATION
 
