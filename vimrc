@@ -1,5 +1,7 @@
 " Visual
+syntax on
 set number
+colo elflord
 au BufNewFile,BufFilePre,BufRead *.md set filetype=markdown
 
 " Indenting

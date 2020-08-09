@@ -13,10 +13,6 @@
 # sudo ./autorun.sh
 # sudo reboot
 
-# Aliases
-echo "cd ~/hacking/htb; alias htb=\"tmux new-session -s HTB -d 'sudo openvpn ~/hacking/htb/gingerbreadman.ovpn' \\; attach\"" > ~/.bash_aliases
-echo "ipi () { ip a show $1 ; }" >> ~/.bash_aliases
-
 prompt() {
     echo $1
     read -n 1 -srp 'Press any key to continue...'
@@ -45,8 +41,11 @@ wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add
 sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
 sudo apt update
 
-# Install programs
-sudo apt install -y curl code git openvpn tmux vim nmap ncat python-pip python3-pip gnome-nettool rlwrap tcpdump python-impacket ltrace default-jdk gcc-multilib gdb
+# General Programs
+sudo apt install -y curl code git openvpn tmux vim python-pip python3-pip gcc-multilib default-jdk
+
+# Hacking Programs
+sudo apt install -y nmap ncat rlwrap tcpdump python-impacket ltrace gdb cmake
 
 # Python Modules
 pip install --user requests colorama pwntools
@@ -57,12 +56,27 @@ git clone https://github.com/danielmiessler/SecLists.git /opt/enum/seclists
 
 # Get dotfiles
 git clone https://github.com/aidan-mccarthy/dotfiles.git /opt/dotfiles
+cp /opt/dotfiles/bash_aliases ~/.bash_aliases
 cp /opt/dotfiles/vimrc ~/.vimrc
 
 # Metasploit
 curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb > /tmp/msfinstall
 chomd +x /tmp/msfinstall
 /tmp/msfinstall
+
+# Fix MySQL after Metasploit
+sudo systemctl stop mysql
+sudo systemctl disable mysql
+
+# Personalization
+wget -O ~/Pictures/debian.png https://wiki.debian.org/DebianArt/Themes/sharp?action=AttachFile&do=get&target=sharp_wallpaper_1920x1200.png
+xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitor0/workspace0/last-image -s ~/Pictures/debian.png
+cp /opt/dotfiles/xfce4/xsettings.xml ~/.config/xfce4/xfce-perchannel-xml/xsettings.xml
+cp /opt/dotfiles/xfce4/terminalrc ~/.config/xfce4/terminal/terminalrc
+
+# Clean Up
+sudo apt -y autoremove
+source ~/.bashrc
 
 ## MANUAL INSTALLATION
 
