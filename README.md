@@ -1,4 +1,8 @@
 # dotfiles
+A collection of my dotfiles, including setup scripts for my common VMs.
+
+## VirtualBox Management
+Run the [vbox.ps1](scripts/vbox.ps1) script to enable VirtualBox management via PowerShell on the host computer.
 
 ## Attack VM
-Debain amd64 image pulled from [Small CDs or USB sticks](https://www.debian.org/distrib/netinst). Setup with [setup script](Scripts/attack-setup.sh).
+Debian 10 AMD64 image pulled from [Small CDs or USB sticks](https://www.debian.org/distrib/netinst). Setup on a Windows host with [creation script](scripts/attack-creation.ps1).

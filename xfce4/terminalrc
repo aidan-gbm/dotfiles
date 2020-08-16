@@ -26,4 +26,4 @@ MiscSlimTabs=FALSE
 MiscNewTabAdjacent=FALSE
 TitleMode=TERMINAL_TITLE_REPLACE
 BackgroundMode=TERMINAL_BACKGROUND_TRANSPARENT
-BackgroundDarkness=0.800000
+BackgroundDarkness=0.850000

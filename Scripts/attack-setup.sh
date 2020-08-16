@@ -50,6 +50,11 @@ sudo apt install -y nmap ncat rlwrap tcpdump python-impacket ltrace gdb cmake
 # Python Modules
 pip install --user requests colorama pwntools
 
+# GDB PEDA
+mkdir /opt/misc
+git clone https://github.com/longld/peda.git /opt/misc/peda
+echo 'source /opt/misc/peda/peda.py' >> ~/.gdbinit
+
 # Seclists
 mkdir /opt/enum
 git clone https://github.com/danielmiessler/SecLists.git /opt/enum/seclists
