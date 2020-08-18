@@ -105,7 +105,7 @@ win "Done!"
 # Get dotfiles
 msg "Getting dotfiles repo -> /opt/dotfiles"
 git clone -q https://github.com/aidan-mccarthy/dotfiles.git /opt/dotfiles
-cp /opt/dotfiles/bash_aliases ~/.bash_aliases
+cp /opt/dotfiles/vm/attack-aliases ~/.bash_aliases
 cp /opt/dotfiles/vimrc ~/.vimrc
 win "Done!"
 
