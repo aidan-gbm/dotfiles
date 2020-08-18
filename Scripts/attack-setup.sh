@@ -63,7 +63,7 @@ msg "Installing Go"
 wget -q -P /tmp 'https://golang.org/dl/go1.15.linux-amd64.tar.gz'
 sudo tar -C /usr/local -xzf /tmp/go1.15.linux-amd64.tar.gz
 echo "export GOPATH=$HOME/.go" >> ~/.bashrc
-echo "export PATH=$PATH:/usr/local/go:$HOME/.go/bin" >> ~/.bashrc
+echo "export PATH=$PATH:/usr/local/go/bin:$HOME/.go/bin" >> ~/.bashrc
 source ~/.bashrc
 win "Done!"
 
@@ -99,7 +99,7 @@ win "Done!"
 # Seclists
 msg "Installing Seclists -> /opt/enum/seclists"
 mkdir /opt/enum
-git clone -q https://github.com/danielmiessler/SecLists.git /opt/enum/seclists
+git clone -q --progress https://github.com/danielmiessler/SecLists.git /opt/enum/seclists
 win "Done!"
 
 # Get dotfiles
