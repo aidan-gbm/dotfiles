@@ -11,19 +11,8 @@ $vmName = "Attack"
 $vmPath = "E:\vm\$vmName"
 $isoFile = "F:\iso\debian-10.5.0-amd64-netinst.iso"
 
-$preseedFile = ".\attack-preseed.cfg"
+$preseedFile = $PSScriptRoot + "\attack-preseed.cfg"
 $preseedUrl = "https://www.debian.org/releases/stable/example-preseed.txt"
-
-# $user = Read-Host -Prompt "Enter the user for this VM"
-# $securedString = Read-Host -Prompt "Enter the password for this VM" -AsSecureString
-# $bstr = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($securedString)
-# $pt = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($bstr)
-# $stringAsStream = [System.IO.MemoryStream]::new()
-# $writer = [System.IO.StreamWriter]::new($stringAsStream)
-# $writer.write($pt)
-# $writer.Flush()
-# $stringAsStream.Position = 0
-# $pass = "`$6`$`$" + (Get-FileHash -Algorithm SHA512 -InputStream $stringAsStream).Hash.ToLower()
 
 # Get ISO if it doesn't exist
 if (![System.IO.File]::Exists($isoFile)) {
@@ -89,7 +78,6 @@ Write-Host "Setting graphics controller..."
 VBoxManage modifyvm $vmName --graphicscontroller vboxsvga
 
 # OS Install
-#VBoxManage unattended install $vmName --auxiliary-base-path="$vmPath\AUX-" --package-selection-adjustment=minimal --iso=$isoFile --user=$user --password=$pass --hostname='attack.gingerbread.net' --install-additions
 VBoxManage unattended install $vmName --auxiliary-base-path="$vmPath\AUX-" --iso=$isoFile --install-additions
 
 # Load correct preseed
@@ -101,9 +89,6 @@ if (![System.IO.File]::Exists($preseedFile)) {
     (Get-Content $preseedFile) -Replace "^#tasksel tasksel/first.*","tasksel tasksel/first multiselect standard, xfce-desktop" | Set-Content $preseedFile
     (Get-Content $preseedFile) -Replace "^#d-i pkgsel/include.*","d-i pkgsel/include string openssh-server build-essential" | Set-Content $preseedFile
     (Get-Content $preseedFile) -Replace "^#d-i passwd/root-login.*","d-i passwd/root-login boolean false" | Set-Content $preseedFile
-    #(Get-Content $preseedFile) -Replace "^#d-i passwd/user-fullname.*","d-i passwd/user-fullname string $user" | Set-Content $preseedFile
-    #(Get-Content $preseedFile) -Replace "^#d-i passwd/username.*","d-i passwd/username string $user" | Set-Content $preseedFile
-    #(Get-Content $preseedFile) -Replace "^#d-i passwd/user-password-crypted.*","d-i passwd/user-password-crypted $pass" | Set-Content $preseedFile
 
     $PSDefaultParameterValues['Out-File:Encoding'] = 'utf8'
     "d-i preseed/late_command string cp /cdrom/vboxpostinstall.sh /target/root/vboxpostinstall.sh \" >> $preseedFile

@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-# Add gbm to sudoers
-# su -c 'gpasswd -a gbm sudo'
-
 # Install guest additions
 # sudo apt update
 # sudo apt install -y build-essential dkms linux-headers-$(uname -r)
@@ -26,12 +23,6 @@ sudo chmod g+w /opt
 # Add gbm to vboxsf group
 sudo adduser gbm vboxsf
 
-# Harden SSH Server
-sudo sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin no/' /etc/ssh/sshd_config
-sudo sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
-sudo sed -i 's/#PermitEmptyPasswords no/PermitEmptyPasswords no/' /etc/ssh/sshd_config
-sudo systemctl restart sshd
-
 # Add add-apt-repository
 sudo apt-get install -y software-properties-common
 sudo apt update
@@ -42,10 +33,16 @@ sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/v
 sudo apt update
 
 # General Programs
-sudo apt install -y curl code git openvpn tmux vim python-pip python3-pip gcc-multilib default-jdk
+sudo apt install -y openssh-server curl code git openvpn tmux vim python-pip python3-pip gcc-multilib default-jdk
 
 # Hacking Programs
 sudo apt install -y nmap ncat rlwrap tcpdump python-impacket ltrace gdb cmake
+
+# Harden SSH Server
+sudo sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin no/' /etc/ssh/sshd_config
+sudo sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
+sudo sed -i 's/#PermitEmptyPasswords no/PermitEmptyPasswords no/' /etc/ssh/sshd_config
+sudo systemctl restart sshd
 
 # Python Modules
 pip install --user requests colorama pwntools
@@ -65,8 +62,8 @@ cp /opt/dotfiles/bash_aliases ~/.bash_aliases
 cp /opt/dotfiles/vimrc ~/.vimrc
 
 # Metasploit
-curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb > /tmp/msfinstall
-chomd +x /tmp/msfinstall
+curl 'https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb' > /tmp/msfinstall
+chmod +x /tmp/msfinstall
 /tmp/msfinstall
 
 # Fix MySQL after Metasploit
@@ -74,9 +71,9 @@ sudo systemctl stop mysql
 sudo systemctl disable mysql
 
 # Personalization
-wget -O ~/Pictures/debian.png https://wiki.debian.org/DebianArt/Themes/sharp?action=AttachFile&do=get&target=sharp_wallpaper_1920x1200.png
+wget -O ~/Pictures/debian.png 'https://wiki.debian.org/DebianArt/Themes/sharp?action=AttachFile&do=get&target=sharp_wallpaper_1920x1200.png'
 xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitor0/workspace0/last-image -s ~/Pictures/debian.png
-cp /opt/dotfiles/xfce4/xsettings.xml ~/.config/xfce4/xfce-perchannel-xml/xsettings.xml
+xfconf-query -c xsettings -p /Net/ThemeName -s "Adwaita-dark"
 cp /opt/dotfiles/xfce4/terminalrc ~/.config/xfce4/terminal/terminalrc
 
 # Clean Up
