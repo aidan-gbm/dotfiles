@@ -33,7 +33,7 @@ sudo chmod g+w /opt
 
 # Add gbm to vboxsf group
 msg "Adding $USER to vboxsf group"
-sudo adduser $USER vboxsf
+sudo adduser $USER vboxsf >/dev/null
 
 # Add add-apt-repository
 msg "Getting add-apt-repository command"
@@ -60,11 +60,10 @@ win "Done!"
 
 # Install Go
 msg "Installing Go"
-wget -P /tmp 'https://golang.org/dl/go1.15.linux-amd64.tar.gz'
+wget -q -P /tmp 'https://golang.org/dl/go1.15.linux-amd64.tar.gz'
 sudo tar -C /usr/local -xzf /tmp/go1.15.linux-amd64.tar.gz
-echo "export GOROOT=/usr/local/go" >> ~/.bashrc
 echo "export GOPATH=$HOME/.go" >> ~/.bashrc
-echo "export PATH=$PATH:$GOROOT:$GOPATH/bin" >> ~/.bashrc
+echo "export PATH=$PATH:/usr/local/go:$HOME/.go/bin" >> ~/.bashrc
 source ~/.bashrc
 win "Done!"
 
@@ -112,22 +111,23 @@ win "Done!"
 
 # Metasploit
 msg "Installing Metasploit"
-curl 'https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb' > /tmp/msfinstall
+curl -s 'https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb' > /tmp/msfinstall
 chmod +x /tmp/msfinstall
-/tmp/msfinstall 2>/dev/null
+/tmp/msfinstall >/dev/null
 win "Done!"
 
 # Personalization
 msg "Adding desktop personalization"
-wget -O ~/Pictures/debian.png 'https://wiki.debian.org/DebianArt/Themes/sharp?action=AttachFile&do=get&target=sharp_wallpaper_1920x1200.png'
+wget -q -O ~/Pictures/debian.png 'https://wiki.debian.org/DebianArt/Themes/sharp?action=AttachFile&do=get&target=sharp_wallpaper_1920x1200.png'
 xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitor0/workspace0/last-image -s ~/Pictures/debian.png
 xfconf-query -c xsettings -p /Net/ThemeName -s "Adwaita-dark"
 cp /opt/dotfiles/xfce4/terminalrc ~/.config/xfce4/terminal/terminalrc
 
 # Clean Up
 msg "Cleaning up..."
-sudo apt -y autoremove
+sudo apt -y autoremove >/dev/null
 source ~/.bashrc
+win "Done!"
 
 ## MANUAL INSTALLATION
 
@@ -137,3 +137,4 @@ prompt $(msg 'Manual Install: Burp Suite -> https://portswigger.net/burp/release
 # Firefox Addons
 prompt $(msg 'Manual Install: Firefox Cookie Editor -> https://addons.mozilla.org/en-US/firefox/addon/cookie-editor/?src=search')
 prompt $(msg 'Manual Install: Firefox FoxyProxy -> https://addons.mozilla.org/en-US/firefox/addon/foxyproxy-standard/?src=search')
+win "Completed Attack setup!"
