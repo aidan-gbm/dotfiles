@@ -1,18 +1,8 @@
 #!/usr/bin/env bash
 
-# Install guest additions
-# sudo apt update
-# sudo apt install -y build-essential dkms linux-headers-$(uname -r)
-# ( Insert Guest Additions CD from VBox Menu )
-# sudo mkdir /mnt/cdrom
-# sudo mount /dev/cdrom /mnt/cdrom
-# cd /mnt/cdrom
-# sudo ./autorun.sh
-# sudo reboot
+USER=`whoami`
 
-$USER=`whoami`
-
-msg() { echo -e "\e[34m[-] $*\e[0m"; }
+msg() { echo -e "\e[94m[-] $*\e[0m"; }
 win() { echo -e "\e[32m[+] $*\e[0m"; }
 err() { echo -e "\e[91m[!] $*\e[0m"; }
 
@@ -22,14 +12,28 @@ prompt() {
     echo
 }
 
+# Install guest additions
+msg "You should have already installed VirtualBox Guest Additions if you're running this on a VM. To install, run the following commands:"
+cat << EOF
+sudo apt update
+sudo apt-get install -y build-essential dkms linux-headers-$(uname -r)
+# ( Insert Guest Additions CD from VBox Menu )
+sudo mkdir /mnt/cdrom
+sudo mount /dev/cdrom /mnt/cdrom
+cd /mnt/cdrom
+sudo ./autorun.sh
+sudo reboot
+EOF
+prompt $(msg 'If this step is complete, you can continue.')
+
 # Modify /opt for use by gbm
 msg "Giving $USER control of /opt"
-sudo chown root:gbm /opt
+sudo chown root:$USER /opt
 sudo chmod g+w /opt
 
 # Add gbm to vboxsf group
 msg "Adding $USER to vboxsf group"
-sudo adduser gbm vboxsf
+sudo adduser $USER vboxsf
 
 # Add add-apt-repository
 msg "Getting add-apt-repository command"
@@ -46,12 +50,12 @@ win "Done!"
 
 # General Programs
 msg "Installing general programs"
-sudo apt install -qqy openssh-server curl code git openvpn tmux vim python-pip python3-pip gcc-multilib default-jdk mariadb-server >/dev/null
+sudo apt-get install -y openssh-server curl code git openvpn tmux vim python-pip python3-pip gcc-multilib default-jdk mariadb-server >/dev/null
 win "Done!"
 
 # Hacking Programs
 msg "Installing various hacking tools"
-sudo apt install -qqy nmap ncat rlwrap tcpdump python-impacket ltrace gdb cmake >/dev/null
+sudo apt-get install -y nmap ncat rlwrap tcpdump python-impacket ltrace gdb cmake >/dev/null
 win "Done!"
 
 # Install Go
@@ -83,7 +87,7 @@ sudo systemctl restart sshd
 
 # Python Modules
 msg "Installing various Python 2.7 modules"
-pip install -q --user requests colorama pwntools
+pip install -q --user requests colorama pwntools --no-warn-script-location
 win "Done!"
 
 # GDB PEDA
