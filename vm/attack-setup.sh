@@ -55,7 +55,7 @@ win "Done!"
 
 # Hacking Programs
 msg "Installing various hacking tools"
-sudo apt-get install -y nmap ncat rlwrap tcpdump python-impacket ltrace gdb cmake >/dev/null
+sudo apt-get install -y nmap ncat rlwrap tcpdump python-impacket ltrace gdb cmake ftp nfs-common >/dev/null
 win "Done!"
 
 # Install Go
