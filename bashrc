@@ -26,9 +26,9 @@ esac
 
 ## Formatting
 red="\033[31m"
-blue="\[\033[96m"
-gray="\[\033[37m"
-green="\[\033[92m"
+blue="\033[96m"
+gray="\033[37m"
+green="\033[92m"
 reset="\033[0m"
 
 ## Sections
@@ -40,7 +40,7 @@ sec_status="\$([ \$? != 0 ] && echo \"$red[✗]\")"
     sec_user="$red[$blue\u$gray@$blue\h$red]"
 sec_tun0="\$(ipi | grep -q tun0 && echo -n \"[$green\" && ip -f inet -o addr show tun0 | awk '{print \$4}' | cut -d / -f1 | tr -d '\n' && echo -n \"$red]$sec_connect\")"
 sec_dir="$red[$green\w$red]"
-sec_end="└──╼ $gray\$ $reset" 
+sec_end="$red└──╼ $gray\$ $reset" 
 
 if [ "$color_prompt" = yes ]; then
     PS1="$sec_start$sec_status$sec_connect$sec_user$sec_connect$sec_tun0$sec_dir\n$sec_end"
