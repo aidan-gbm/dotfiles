@@ -58,6 +58,14 @@ msg "Installing various hacking tools"
 sudo apt-get install -y nmap ncat rlwrap tcpdump python-impacket ltrace gdb cmake ftp nfs-common >/dev/null
 win "Done!"
 
+# Get dotfiles
+msg "Getting dotfiles repo -> /opt/dotfiles"
+git clone -q https://github.com/aidan-mccarthy/dotfiles.git /opt/dotfiles
+cp /opt/dotfiles/vm/attack-aliases ~/.bash_aliases
+cp /opt/dotfiles/bashrc ~/.bashrc
+cp /opt/dotfiles/vimrc ~/.vimrc
+win "Done!"
+
 # Install Go
 msg "Installing Go"
 wget -q -P /tmp 'https://golang.org/dl/go1.15.linux-amd64.tar.gz'
@@ -100,13 +108,6 @@ win "Done!"
 msg "Installing Seclists -> /opt/enum/seclists"
 mkdir /opt/enum
 git clone -q --progress https://github.com/danielmiessler/SecLists.git /opt/enum/seclists
-win "Done!"
-
-# Get dotfiles
-msg "Getting dotfiles repo -> /opt/dotfiles"
-git clone -q https://github.com/aidan-mccarthy/dotfiles.git /opt/dotfiles
-cp /opt/dotfiles/vm/attack-aliases ~/.bash_aliases
-cp /opt/dotfiles/vimrc ~/.vimrc
 win "Done!"
 
 # Metasploit
