@@ -25,11 +25,11 @@ case "$TERM" in
 esac
 
 ## Formatting
-red="\033[31m"
-blue="\033[96m"
-gray="\033[37m"
-green="\033[92m"
-reset="\033[0m"
+red="\[\033[31m\]"
+blue="\[\033[96m\]"
+gray="\[\033[37m\]"
+green="\[\033[92m\]"
+reset="\[\033[0m\]"
 
 ## Sections
 sec_start="$red┌──"
