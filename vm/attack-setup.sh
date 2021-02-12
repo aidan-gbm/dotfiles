@@ -93,8 +93,9 @@ sudo sed -i 's/#PermitEmptyPasswords no/PermitEmptyPasswords no/' /etc/ssh/sshd_
 sudo systemctl restart sshd
 
 # Python Modules
-msg "Installing various Python 2.7 modules"
-pip install -q --user requests colorama pwntools --no-warn-script-location
+msg "Installing Python modules"
+python -m pip install -q --user requests colorama pwntools --no-warn-script-location
+python3 -m pip install -q --user requests colorama pwntools --no-warn-script-location
 win "Done!"
 
 # GDB PEDA
