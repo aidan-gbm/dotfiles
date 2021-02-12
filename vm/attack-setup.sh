@@ -38,14 +38,15 @@ sudo adduser $USER vboxsf >/dev/null
 # Add add-apt-repository
 msg "Getting add-apt-repository command"
 sudo apt-get install -qqy software-properties-common >/dev/null
-sudo apt update >/dev/null
+sudo apt-get update >/dev/null
 win "Done!"
 
 # Add Visual Studio Code repository
 msg "Adding Visual Studio Code repository"
+sudo apt-get install wget
 wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add -
 sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
-sudo apt update >/dev/null
+sudo apt-get update >/dev/null
 win "Done!"
 
 # General Programs
@@ -64,6 +65,7 @@ git clone -q https://github.com/aidan-mccarthy/dotfiles.git /opt/dotfiles
 cp /opt/dotfiles/vm/attack-aliases ~/.bash_aliases
 cp /opt/dotfiles/bashrc ~/.bashrc
 cp /opt/dotfiles/vimrc ~/.vimrc
+source ~/.bashrc
 win "Done!"
 
 # Install Go
@@ -115,7 +117,7 @@ win "Done!"
 msg "Installing Metasploit"
 curl -s 'https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb' > /tmp/msfinstall
 chmod +x /tmp/msfinstall
-/tmp/msfinstall >/dev/null
+/tmp/msfinstall
 win "Done!"
 
 # Personalization
@@ -128,7 +130,6 @@ cp /opt/dotfiles/xfce4/terminalrc ~/.config/xfce4/terminal/terminalrc
 # Clean Up
 msg "Cleaning up..."
 sudo apt -y autoremove >/dev/null
-source ~/.bashrc
 win "Done!"
 
 ## MANUAL INSTALLATION
@@ -139,4 +140,5 @@ prompt $(msg 'Manual Install: Burp Suite -> https://portswigger.net/burp/release
 # Firefox Addons
 prompt $(msg 'Manual Install: Firefox Cookie Editor -> https://addons.mozilla.org/en-US/firefox/addon/cookie-editor/?src=search')
 prompt $(msg 'Manual Install: Firefox FoxyProxy -> https://addons.mozilla.org/en-US/firefox/addon/foxyproxy-standard/?src=search')
+msg 'Complete Metasploit install with "msfconsole"'
 win "Completed Attack setup!"
