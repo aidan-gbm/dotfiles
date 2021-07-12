@@ -31,6 +31,8 @@ gray="\[\033[37m\]"
 green="\[\033[92m\]"
 reset="\[\033[0m\]"
 
+ipi () { ip a show $1 ; }
+
 ## Sections
 sec_start="$red┌──"
 sec_connect="$red─"
