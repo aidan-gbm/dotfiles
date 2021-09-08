@@ -142,7 +142,7 @@ win "Done!"
 
 # Install gobuster
 msg "Installing gobuster"
-/usr/local/go/bin/go get github.com/OJ/gobuster
+/usr/local/go/bin/go install github.com/OJ/gobuster/v3@latest
 win "Done!"
 
 # Disable default MySQL startup
@@ -170,8 +170,8 @@ win "Done!"
 
 # Seclists
 msg "Installing Seclists -> /opt/enum/seclists"
-mkdir /opt/enum
-sudo -U $USER git clone -q --progress https://github.com/danielmiessler/SecLists.git /opt/enum/seclists
+sudo -u $USER mkdir /opt/enum
+sudo -u $USER git clone -q --progress https://github.com/danielmiessler/SecLists.git /opt/enum/seclists
 win "Done!"
 
 # # Metasploit
@@ -184,8 +184,8 @@ win "Done!"
 # Personalization
 msg "Adding desktop personalization"
 wget -q -O $HOME/Pictures/debian.png 'https://wiki.debian.org/DebianArt/Themes/sharp?action=AttachFile&do=get&target=sharp_wallpaper_1920x1200.png'
-sudo -u $USER xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitor0/workspace0/last-image -s $HOME/Pictures/debian.png
-sudo -u $USER xfconf-query -c xsettings -p /Net/ThemeName -s "Adwaita-dark"
+#sudo -u $USER xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitor0/workspace0/last-image -s $HOME/Pictures/debian.png
+#sudo -u $USER xfconf-query -c xsettings -p /Net/ThemeName -s "Adwaita-dark"
 cp /opt/dotfiles/xfce4/terminalrc $HOME/.config/xfce4/terminal/terminalrc
 
 # Clean Up
