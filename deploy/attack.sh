@@ -58,7 +58,7 @@ if [[ $? -eq 0 ]]; then
         prompt "Insert Guest Additions CD from VBox Menu"
         mkdir /mnt/cdrom
         mount /dev/cdrom /mnt/cdrom
-        ./mnt/cdrom/autorun.sh && \
+        /mnt/cdrom/autorun.sh && \
         win "Done"
     else
         err "Could not install required packages."
@@ -103,7 +103,7 @@ aptInstall nmap && \
 aptInstall ncat && \
 aptInstall rlwrap && \
 aptInstall tcpdump && \
-aptInstall python-impacket && \
+aptInstall python3-impacket && \
 aptInstall ltrace && \
 aptInstall gdb && \
 aptInstall nfs-common && \
@@ -111,23 +111,20 @@ aptInstall ftp && \
 win "Done!" || \
 err "Could not install required package."
 
-# # Add Visual Studio Code repository
-# msg "Adding Visual Studio Code repository"
-# apt-get install wget
-# wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add -
-# sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
-# sudo apt-get update >/dev/null
-# sudo apt-get install -y code
-# win "Done!"
+# Add Visual Studio Code repository
+msg "Adding Visual Studio Code repository"
+wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add -
+add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
+apt-get -qq update
+aptInstall code && \
+win "Done!" || \
+err "Could not install VSCode."
 
-# # Get dotfiles
-# msg "Getting dotfiles repo -> /opt/dotfiles"
-# git clone -q https://github.com/aidan-mccarthy/dotfiles.git /opt/dotfiles
-# cp /opt/dotfiles/vm/attack-aliases ~/.bash_aliases
-# cp /opt/dotfiles/bashrc ~/.bashrc
-# cp /opt/dotfiles/vimrc ~/.vimrc
-# source ~/.bashrc
-# win "Done!"
+# Get dotfiles
+msg "Getting dotfiles repo -> /opt/dotfiles"
+git clone -q https://github.com/aidan-mccarthy/dotfiles.git /opt/dotfiles
+/opt/dotfiles/setup.sh && \
+win "Done!"
 
 # # Install Go
 # msg "Installing Go"
