@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-cp bashrc ~/.bashrc
-cp tmux.conf ~/.tmux.conf
-cp vimrc ~/.vimrc
-source ~/.bashrc
+# Argument is current path of dotfiles directory
+cp $1/bashrc $HOME/.bashrc
+cp $1/tmux.conf $HOME/.tmux.conf
+cp $1/vimrc $HOME/.vimrc
+source $HOME/.bashrc

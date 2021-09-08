@@ -123,16 +123,16 @@ err "Could not install VSCode."
 # Get dotfiles
 msg "Getting dotfiles repo -> /opt/dotfiles"
 sudo -u $USER git clone -q https://github.com/aidan-gbm/dotfiles.git /opt/dotfiles
-sudo -u $USER /opt/dotfiles/setup.sh && \
+sudo -u $USER /opt/dotfiles/setup.sh /opt/dotfiles && \
 win "Done!"
 
 # Install Go
 msg "Installing Go"
 wget -q -P /tmp 'https://golang.org/dl/go1.15.linux-amd64.tar.gz'
 tar -C /usr/local -xzf /tmp/go1.15.linux-amd64.tar.gz
-echo "export GOPATH=$HOME/.go" >> ~/.bashrc
-echo "export PATH=$PATH:/usr/local/go/bin:$HOME/.go/bin" >> ~/.bashrc
-source ~/.bashrc
+echo "export GOPATH=$HOME/.go" >> $HOME/.bashrc
+echo "export PATH=$PATH:/usr/local/go/bin:$HOME/.go/bin" >> $HOME/.bashrc
+source $HOME/.bashrc
 win "Done!"
 
 # Install gobuster
