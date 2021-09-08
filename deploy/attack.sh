@@ -122,23 +122,23 @@ err "Could not install VSCode."
 
 # Get dotfiles
 msg "Getting dotfiles repo -> /opt/dotfiles"
-git clone -q https://github.com/aidan-mccarthy/dotfiles.git /opt/dotfiles
-/opt/dotfiles/setup.sh && \
+sudo -u $USER git clone -q https://github.com/aidan-gbm/dotfiles.git /opt/dotfiles
+sudo -u $USER /opt/dotfiles/setup.sh && \
 win "Done!"
 
-# # Install Go
-# msg "Installing Go"
-# wget -q -P /tmp 'https://golang.org/dl/go1.15.linux-amd64.tar.gz'
-# sudo tar -C /usr/local -xzf /tmp/go1.15.linux-amd64.tar.gz
-# echo "export GOPATH=$HOME/.go" >> ~/.bashrc
-# echo "export PATH=$PATH:/usr/local/go/bin:$HOME/.go/bin" >> ~/.bashrc
-# source ~/.bashrc
-# win "Done!"
+# Install Go
+msg "Installing Go"
+wget -q -P /tmp 'https://golang.org/dl/go1.15.linux-amd64.tar.gz'
+tar -C /usr/local -xzf /tmp/go1.15.linux-amd64.tar.gz
+echo "export GOPATH=$HOME/.go" >> ~/.bashrc
+echo "export PATH=$PATH:/usr/local/go/bin:$HOME/.go/bin" >> ~/.bashrc
+source ~/.bashrc
+win "Done!"
 
-# # Install gobuster
-# msg "Installing gobuster"
-# go get github.com/OJ/gobuster
-# win "Done!"
+# Install gobuster
+msg "Installing gobuster"
+go get github.com/OJ/gobuster
+win "Done!"
 
 # # Disable default MySQL startup
 # msg "Disabling default MySQL startup"
