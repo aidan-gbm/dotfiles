@@ -35,7 +35,7 @@ prompt() {
 
 aptInstall() {
     echo -n "$1..."
-    apt-get install -qq $1 >/dev/null
+    apt-get -qq install $1 >/dev/null
     if [[ $? -eq 0 ]]; then
         echo "done!"
         return 0
@@ -49,7 +49,7 @@ aptInstall() {
 prompt_yn "Do you want to install VirtualBox Guest Additions?"
 if [[ $? -eq 0 ]]; then
     msg "Installing VBox Guest Additions..."
-    apt-get update -qq
+    apt-get -qq update
     aptInstall build-essential && \
     aptInstall dkms && \
     aptInstall linux-headers-$(uname -r)
@@ -93,7 +93,7 @@ aptInstall gcc-multilib && \
 aptInstall default-jdk && \
 aptInstall mariadb-server && \
 aptInstall cmake && \
-apt-get update -qq && \
+apt-get -qq update && \
 win "Done!" || \
 err "Could not install required package."
 
