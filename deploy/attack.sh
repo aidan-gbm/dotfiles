@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 
 USER=$(logname)
+HOME="/home/$USER"
+
+if [ $USER == "root" ]; then
+    HOME="/root"
+fi
 
 msg() { echo -e "\e[94m[-] $*\e[0m"; }
 win() { echo -e "\e[32m[+] $*\e[0m"; }
