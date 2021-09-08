@@ -35,7 +35,7 @@ prompt() {
 
 aptInstall() {
     echo -n "$1..."
-    apt-get install -qq $1 2>/dev/null
+    apt-get install -qq $1 >/dev/null
     if [[ $? -eq 0 ]]; then
         echo "done!"
         return 0
