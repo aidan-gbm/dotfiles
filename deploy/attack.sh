@@ -142,39 +142,37 @@ win "Done!"
 
 # Install gobuster
 msg "Installing gobuster"
-go get github.com/OJ/gobuster
+/usr/local/go/bin/go get github.com/OJ/gobuster
 win "Done!"
 
-# # Disable default MySQL startup
-# msg "Disabling default MySQL startup"
-# sudo systemctl stop mysql >/dev/null
-# sudo systemctl disable mysql >/dev/null
+# Disable default MySQL startup
+msg "Disabling default MySQL startup"
+systemctl stop mysql >/dev/null
+systemctl disable mysql >/dev/null
 
-# # Harden SSH Server
-# msg "Hardening SSH server"
-# sudo sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin no/' /etc/ssh/sshd_config
-# sudo sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
-# sudo sed -i 's/#PermitEmptyPasswords no/PermitEmptyPasswords no/' /etc/ssh/sshd_config
-# sudo systemctl restart sshd
+# Harden SSH Server
+msg "Hardening SSH server"
+sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin no/' /etc/ssh/sshd_config
+sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
+sed -i 's/#PermitEmptyPasswords no/PermitEmptyPasswords no/' /etc/ssh/sshd_config
+systemctl restart sshd
 
-# # Python Modules
-# msg "Installing Python modules"
-# python -m pip install -q --user requests colorama pwntools --no-warn-script-location
-# python3 -m pip install -q --user requests colorama pwntools --no-warn-script-location
-# win "Done!"
+# Python Modules
+msg "Installing Python modules"
+sudo -u $USER python3.9 -m pip install -q --user requests colorama pwntools --no-warn-script-location
+win "Done!"
 
-# # GDB PEDA
-# msg "Installing GDB PEDA -> /opt/misc/peda"
-# mkdir /opt/misc
-# git clone -q https://github.com/longld/peda.git /opt/misc/peda
-# echo 'source /opt/misc/peda/peda.py' >> ~/.gdbinit
-# win "Done!"
+# GDB GEF
+msg "Installing GDB GEF"
+wget -q -O /tmp/gef.sh https://github.com/hugsy/gef/raw/master/scripts/gef.sh
+sudo -Hu $USER bash /tmp/gef.sh
+win "Done!"
 
-# # Seclists
-# msg "Installing Seclists -> /opt/enum/seclists"
-# mkdir /opt/enum
-# git clone -q --progress https://github.com/danielmiessler/SecLists.git /opt/enum/seclists
-# win "Done!"
+# Seclists
+msg "Installing Seclists -> /opt/enum/seclists"
+mkdir /opt/enum
+sudo -U $USER git clone -q --progress https://github.com/danielmiessler/SecLists.git /opt/enum/seclists
+win "Done!"
 
 # # Metasploit
 # msg "Installing Metasploit"
@@ -183,17 +181,17 @@ win "Done!"
 # /tmp/msfinstall
 # win "Done!"
 
-# # Personalization
-# msg "Adding desktop personalization"
-# wget -q -O ~/Pictures/debian.png 'https://wiki.debian.org/DebianArt/Themes/sharp?action=AttachFile&do=get&target=sharp_wallpaper_1920x1200.png'
-# xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitor0/workspace0/last-image -s ~/Pictures/debian.png
-# xfconf-query -c xsettings -p /Net/ThemeName -s "Adwaita-dark"
-# cp /opt/dotfiles/xfce4/terminalrc ~/.config/xfce4/terminal/terminalrc
+# Personalization
+msg "Adding desktop personalization"
+wget -q -O $HOME/Pictures/debian.png 'https://wiki.debian.org/DebianArt/Themes/sharp?action=AttachFile&do=get&target=sharp_wallpaper_1920x1200.png'
+sudo -u $USER xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitor0/workspace0/last-image -s $HOME/Pictures/debian.png
+sudo -u $USER xfconf-query -c xsettings -p /Net/ThemeName -s "Adwaita-dark"
+cp /opt/dotfiles/xfce4/terminalrc $HOME/.config/xfce4/terminal/terminalrc
 
-# # Clean Up
-# msg "Cleaning up..."
-# sudo apt -y autoremove >/dev/null
-# win "Done!"
+# Clean Up
+msg "Cleaning up..."
+apt -y autoremove >/dev/null
+win "Done!"
 
 # ## MANUAL INSTALLATION
 
