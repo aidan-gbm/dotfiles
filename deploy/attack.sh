@@ -133,8 +133,8 @@ win "Done!"
 
 # Install Go
 msg "Installing Go"
-wget -q -P /tmp 'https://golang.org/dl/go1.15.linux-amd64.tar.gz'
-tar -C /usr/local -xzf /tmp/go1.15.linux-amd64.tar.gz
+wget -q -P /tmp 'https://golang.org/dl/go1.17.linux-amd64.tar.gz'
+tar -C /usr/local -xzf /tmp/go1.17.linux-amd64.tar.gz
 echo "export GOPATH=$HOME/.go" >> $HOME/.bashrc
 echo "export PATH=$PATH:/usr/local/go/bin:$HOME/.go/bin" >> $HOME/.bashrc
 source $HOME/.bashrc
