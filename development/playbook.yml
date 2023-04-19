@@ -41,6 +41,7 @@
       get_url:
         url: https://dl.dod.cyber.mil/wp-content/uploads/pki-pke/zip/unclass-certificates_pkcs7_v5-6_dod.zip
         dest: /tmp/dod_certs.zip
+        checksum: sha256:a073a68ba18eb6e9b31bcb82f3020311869b6a55aa8b93fbaf56b99c88cf503b
         validate_certs: false
       notify: install dod certs
 
