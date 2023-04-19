@@ -1,0 +1,39 @@
+---
+- name: Configure Debian VM for Development
+  hosts: development
+  remote_user: user
+
+  tasks:
+    - name: install utility packages
+      become: true
+      apt:
+        state: latest
+        update_cache: true
+        name:
+          - vim
+          - tmux
+          - git
+          - curl
+          - gcc
+          - xz-utils
+
+    - name: install visual studio
+      become: true
+      apt:
+        deb: https://update.code.visualstudio.com/latest/linux-deb-x64/stable
+
+    - name: add vimrc
+      copy:
+        src: vimrc
+        dest: ~/.vimrc
+
+    - name: add bashrc
+      copy:
+        src: bashrc
+        dest: ~/.bashrc
+
+    - name: add tmux.conf
+      copy:
+        src: tmux.conf
+        dest: ~/.tmux.conf
+

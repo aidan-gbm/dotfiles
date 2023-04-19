@@ -1,7 +1,21 @@
 # dotfiles
-A collection of my dotfiles, including setup scripts for my common VMs.
+A collection of my dotfiles, setup scripts, and ansible playbooks for my machines.
 
-## Config Files
+## Use
+
+Use [ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
+for ease of setup. Modify the host in `inventory.yml` as needed.
+
+```
+ansible-playbook -Ki inventory.yml development/playbook.yml
+```
+
+## Playbooks
+
+- `development`: Debian 11 development VM
+
+## Misc (old)
+
 - i3
   - [config](i3/config) - i3 config for Regolith
   - [config.arch](i3/config.arch) - i3 config for Arch
@@ -11,8 +25,9 @@ A collection of my dotfiles, including setup scripts for my common VMs.
 - xfce4
   - [terminalrc](xfce4/terminalrc) - xfce4 terminal settings (used in Attack VM)
 - [vm](vm/) - used in VM creation/setup
-- [tmux.conf](tmux.conf)
-- [vimrc](vimrc)
 
-## Attack VM
-Debian 10 AMD64 image pulled from [Small CDs or USB sticks](https://www.debian.org/distrib/netinst). Setup on a Windows host with [creation script](vm/attack-creation.ps1) (WIP). Run the [setup script](vm/attack-setup.sh) after installation to configure the work environment.
+## Attack VM (old)
+
+Debian 10 AMD64 image pulled from [Small CDs or USB sticks](https://www.debian.org/distrib/netinst).
+Setup on a Windows host with [creation script](vm/attack-creation.ps1) (WIP).
+Run the [setup script](vm/attack-setup.sh) after installation to configure the work environment.

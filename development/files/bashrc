@@ -34,8 +34,8 @@ reset="\[\033[0m\]"
 ipi () { ip a show $1 ; }
 
 ## Sections
-sec_start="$red┌──"
 sec_connect="$red─"
+sec_start="$red┌──"
 sec_status="\$([ \$? != 0 ] && echo \"$red[✗]\")"
 [ ${EUID} == 0 ] && \
     sec_user="$red[\u$gray@$blue\h$red]" || \
@@ -44,12 +44,21 @@ sec_tun0="\$(ipi | grep -q tun0 && echo -n \"[$green\" && ip -f inet -o addr sho
 sec_dir="$red[$green\w$red]"
 sec_end="$red└──╼ $gray\$ $reset" 
 
-if [ "$color_prompt" = yes ]; then
-    PS1="$sec_start$sec_status$sec_connect$sec_user$sec_connect$sec_tun0$sec_dir\n$sec_end"
-else
-    PS1='┌──[\u@\h]─[\w]\n└──╼ \$ '
-fi
-unset color_prompt
+set_prompt() {
+    if test -z "$VIRTUAL_ENV"; then
+        sec_venv=""
+    else
+        sec_venv="$sec_connect[$blue`basename \"$VIRTUAL_ENV\"`$red]"
+    fi
+
+    if [ "$color_prompt" = yes ]; then
+        PS1="$sec_start$sec_status$sec_connect$sec_user$sec_connect$sec_tun0$sec_dir$sec_venv\n$sec_end"
+    else
+        PS1='┌──[\u@\h]─[\w]\n└──╼ \$ '
+    fi
+}
+
+PROMPT_COMMAND=set_prompt
 
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
