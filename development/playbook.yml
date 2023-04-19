@@ -37,3 +37,20 @@
         src: tmux.conf
         dest: ~/.tmux.conf
 
+    - name: add dod certificates
+      get_url:
+        url: https://dl.dod.cyber.mil/wp-content/uploads/pki-pke/zip/unclass-certificates_pkcs7_v5-6_dod.zip
+        dest: /tmp/dod_certs.zip
+        validate_certs: false
+      notify: install dod certs
+
+  handlers:
+    - name: install dod certs
+      become: true
+      shell: |
+        cd $(mktemp -d) && mv /tmp/dod_certs.zip . && \
+        unzip -q dod_certs.zip && \
+        openssl pkcs7 -in Certificates_PKCS7_v5.6_DoD/Certificates_PKCS7_v5.6_DoD.pem.p7b -print_certs | \
+        awk 'BEGIN {c=0;} /BEGIN CERT/{c++} { print > "/usr/local/share/ca-certificates/dod_cert." c ".crt"}' && \
+        update-ca-certificates
+
