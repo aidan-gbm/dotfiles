@@ -1,0 +1,11 @@
+---
+- name: sync config files
+  ansible.posix.synchronize:
+    src: .
+    dest: /home/user/.config/nvim
+
+- name: add packer plugin
+  git:
+    repo: https://github.com/wbthomason/packer.nvim
+    dest: /home/user/.local/share/nvim/site/pack/packer/start/packer.nvim
+    depth: 1
