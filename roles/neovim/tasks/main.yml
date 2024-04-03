@@ -19,6 +19,11 @@
     cmd: pip install -U jedi-language-server
     creates: "{{ ansible_env.HOME }}/.local/bin/jedi-language-server"
 
+- name: Create neovim config directory
+  file:
+    path: /home/user/.config/nvim
+    state: directory
+
 - name: Setup config files
   ansible.posix.synchronize:
     src: .
