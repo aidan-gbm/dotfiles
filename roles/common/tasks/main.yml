@@ -1,9 +1,11 @@
 ---
-- name: Create tools directory
+- name: Create directories
   file:
-    path: "{{ tools_dir }}"
+    path: "{{ item }}"
     state: directory
-    mode: '0750'
+  with_items:
+    - "{{ tools_dir }}"
+    - "{{ tools_bin }}"
 
 - name: Install dotfiles
   copy:

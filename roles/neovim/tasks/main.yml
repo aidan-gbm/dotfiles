@@ -1,10 +1,16 @@
 ---
-- name: "Download neovim {{ neovim_version }}"
+- name: Download neovim
   unarchive:
     src: "{{ nvim_releases_url }}/{{ nvim_version }}/{{ nvim_tarball }}"
     dest: "{{ tools_dir }}"
     remote_src: true
     creates: "{{ tools_dir }}/{{ nvim_bin }}/nvim"
+
+- name: Install neovim symlink
+  file:
+    src: "{{ tools_dir }}/{{ nvim_bin }}/nvim"
+    dest: "{{ tools_bin }}/nvim"
+    state: link
 
 - name: Install language servers
   become: true
