@@ -7,6 +7,7 @@
     creates: "{{ tools_dir }}/{{ nvim_bin }}/nvim"
 
 - name: Install language servers
+  become: true
   apt:
     state: latest
     pkg:
