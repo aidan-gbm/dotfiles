@@ -1,0 +1,3 @@
+---
+tools_dir: "{{ ansible_env.HOME }}/.tools"
+tools_bin: "{{ ansible_env.HOME }}/.local/bin"

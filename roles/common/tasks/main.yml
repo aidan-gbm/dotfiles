@@ -1,0 +1,14 @@
+---
+- name: Create tools directory
+  file:
+    path: "{{ tools_dir }}"
+    state: directory
+    mode: '0750'
+
+- name: Install dotfiles
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ ansible_env.HOME }}/{{ item.dest }}"
+  with_items:
+    - { src: "bashrc", dest: ".bashrc" }
+    - { src: "tmux.conf", dest: ".tmux.conf" }
