@@ -12,6 +12,24 @@
     dest: "{{ tools_bin }}/nvim"
     state: link
 
+- name: Create directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ nvim_cfg }}"
+    - "{{ nvim_packpath }}"
+
+    #- name: Setup config files
+    #copy:
+    #src: ./
+    #dest: "{{ nvim_cfg }}"
+
+- name: Install nvim-lspconfig
+  git:
+    repo: "https://github.com/neovim/nvim-lspconfig.git"
+    dest: "{{ nvim_packpath }}/lsp/opt/nvim-lspconfig"
+
 - name: Install language servers
   become: true
   apt:
@@ -22,15 +40,5 @@
 
 - name: Install Python language server
   command:
-    cmd: pip install -U jedi-language-server
+    cmd: pip install --user jedi-language-server
     creates: "{{ ansible_env.HOME }}/.local/bin/jedi-language-server"
-
-- name: Create neovim config directory
-  file:
-    path: /home/user/.config/nvim
-    state: directory
-
-- name: Setup config files
-  ansible.posix.synchronize:
-    src: .
-    dest: /home/user/.config/nvim

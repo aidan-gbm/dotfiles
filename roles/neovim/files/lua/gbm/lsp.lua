@@ -1,4 +1,14 @@
--- lsp keymaps
+local lspconfig = require("lspconfig")
+local servers = { "gopls", "jedi_language_server" }
+
+for _, server in ipairs(servers) do
+    require("lspconfig")[server].setup{
+        capabilities = cap_lsp,
+        handlers = handlers,
+    }
+end
+
+-- keymaps
 
 vim.api.nvim_create_autocmd("LspAttach", {
     group = vim.api.nvim_create_augroup("UserLspConfig", {}),
@@ -28,40 +38,3 @@ local handlers = {
 }
 
 vim.diagnostic.config({ float = { border = "rounded" }})
-
--- language servers
-
-local cap_lsp = require("cmp_nvim_lsp").default_capabilities()
-local servers = { "gopls", "clangd", "jedi_language_server" }
-
-for _, server in ipairs(servers) do
-    require("lspconfig")[server].setup{
-        capabilities = cap_lsp,
-        handlers = handlers,
-    }
-end
-
--- cmp setup
-
-local cmp = require("cmp")
-cmp.setup({
-    sources = {
-        { name = "nvim_lsp" },
-        { name = "luasnip" },
-    },
-
-    snippet = {
-        expand = function(args)
-            require("luasnip").lsp_expand(args.body)
-        end,
-    },
-
-    window = {
-        completion = cmp.config.window.bordered(),
-        documentation = cmp.config.window.bordered(),
-    },
-
-    mapping = cmp.mapping.preset.insert({
-        ["<CR>"] = cmp.mapping.confirm({ select = false }),
-    })
-})
