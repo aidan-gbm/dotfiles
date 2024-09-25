@@ -14,3 +14,11 @@
   with_items:
     - { src: "bashrc", dest: ".bashrc" }
     - { src: "tmux.conf", dest: ".tmux.conf" }
+
+- name: Install CLI utilities
+  become: true
+  apt:
+    state: latest
+    pkg:
+      - tmux
+      - git

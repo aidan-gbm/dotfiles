@@ -26,7 +26,7 @@ fi
 . "$VENV/bin/activate"
 
 info "installing ansible"
-pip install -qq ansible
+pip install -qq --user ansible
 
 REPO=$(dirname -- "$0")
 if ! test -f "$REPO/development.yml"; then

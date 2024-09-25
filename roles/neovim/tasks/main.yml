@@ -20,15 +20,27 @@
     - "{{ nvim_cfg }}"
     - "{{ nvim_packpath }}"
 
-    #- name: Setup config files
-    #copy:
-    #src: ./
-    #dest: "{{ nvim_cfg }}"
+- name: Setup config files
+  copy:
+    src: ./
+    dest: "{{ nvim_cfg }}"
 
-- name: Install nvim-lspconfig
+- name: Install LSP plugins
   git:
-    repo: "https://github.com/neovim/nvim-lspconfig.git"
-    dest: "{{ nvim_packpath }}/lsp/opt/nvim-lspconfig"
+    repo: "{{ item.repo }}"
+    dest: "{{ nvim_packpath }}/lsp/start/{{ item.name }}"
+  with_items:
+    - { "name": "nvim-lspconfig", "repo": "https://github.com/neovim/nvim-lspconfig.git" }
+    - { "name": "cmp-nvim-lsp", "repo": "https://github.com/hrsh7th/cmp-nvim-lsp.git" }
+    - { "name": "nvim-cmp", "repo": "https://github.com/hrsh7th/nvim-cmp.git" }
+
+- name: Install navigation plugins
+  git:
+    repo: "{{ item.repo }}"
+    dest: "{{ nvim_packpath }}/nav/{{ item.dest }}"
+  with_items:
+    - { "dest": "start/plenary.nvim", "repo": "https://github.com/nvim-lua/plenary.nvim.git" }
+    - { "dest": "opt/telescope.nvim", "repo": "https://github.com/nvim-telescope/telescope.nvim.git" }
 
 - name: Install language servers
   become: true
