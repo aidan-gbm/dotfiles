@@ -36,10 +36,10 @@ update && install python3 python3-venv
 
 ### Setup Python Virtual Environment ###
 
-VENV="$HOME/.local/venv"
+venv="$HOME/.local/venv"
 
-if test -d "$VENV"; then
-    system=$(sed -nr 's/.*-site-packages = (\w+)/\1/p' "$VENV/pyvenv.cfg")
+if test -d "$venv"; then
+    system=$(sed -nr 's/.*-site-packages = (\w+)/\1/p' "$venv/pyvenv.cfg")
     if test "$system" = "true"; then
         info using existing virtual environment
     else
@@ -47,22 +47,22 @@ if test -d "$VENV"; then
     fi
 else
     info creating virtual environment
-    python3 -m venv --system-site-packages "$VENV"
+    python3 -m venv --system-site-packages "$venv"
 fi
 
-. "$VENV/bin/activate"
+. "$venv/bin/activate"
 
 ### Run Ansible Playbook ###
 
 info installing ansible
 pip install -qq --user ansible
 
-REPO=$(dirname -- "$0")
-if ! test -f "$REPO/development.yml"; then
+repo=$(dirname -- "$0")
+if ! test -f "$repo/development.yml"; then
     fail cannot locate playbook
 fi
 
-ansible-playbook -K "$REPO/development.yml"
+ansible-playbook -K "$repo/development.yml"
 
 if test $? -eq 0; then
     info setup complete
