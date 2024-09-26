@@ -12,7 +12,7 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 
 -- telescope
-vim.cmd [[packadd telescope.nvim]]
+vim.cmd.packadd("telescope.nvim")
 require("telescope").setup({})
 
 local builtin = require("telescope.builtin")

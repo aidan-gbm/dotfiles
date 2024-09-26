@@ -42,6 +42,13 @@
     - { "dest": "start/plenary.nvim", "repo": "https://github.com/nvim-lua/plenary.nvim.git" }
     - { "dest": "opt/telescope.nvim", "repo": "https://github.com/nvim-telescope/telescope.nvim.git" }
 
+- name: Install colorscheme(s)
+  git:
+    repo: "{{ item.repo }}"
+    dest: "{{ nvim_packpath }}/colo/opt/{{ item.name }}"
+  with_items:
+    - { "name": "moonfly", "repo": "https://github.com/bluz71/vim-moonfly-colors.git" }
+
 - name: Install language servers
   become: true
   apt:
