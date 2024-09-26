@@ -1,19 +1,8 @@
 # dotfiles
 
-Ansible playbook(s) for setting up dotfiles.
-
-## Install
-
-Requirements
-
-- Python3 w/ venv
-- rsync
+.files
 
 ```sh
-# venv for ansible
-python3 -m venv venv
-. venv/bin/activate
-
-pip install ansible
-ansible-playbook development.yml
+git clone https://github.com/aidan-gbm/dotfiles.git ~/.tools/dotfiles
+sh ~/.tools/dotfiles/install.sh
 ```
