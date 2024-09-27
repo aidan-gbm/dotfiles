@@ -16,3 +16,6 @@ vim.opt.signcolumn = "no"
 
 vim.opt.incsearch = true
 vim.opt.hlsearch = true
+
+vim.opt.splitbelow = true
+vim.opt.splitright = true
