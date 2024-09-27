@@ -20,5 +20,5 @@ vim.keymap.set("n", "<leader>ff", builtin.find_files, {})
 vim.keymap.set("n", "<leader>gf", builtin.git_files, {})
 
 -- terminal
-vim.keymap.set("n", "<leader>%", ":split term://bash<CR>:set nonumber nornu<CR>i")
-vim.keymap.set("n", "<leader>\"", ":vsplit term://bash<CR>:set nonumber nornu<CR>i")
+vim.keymap.set("n", "<leader>%", ":vsplit term://bash<CR>:set nonumber nornu<CR>i")
+vim.keymap.set("n", "<leader>\"", ":split term://bash<CR>:set nonumber nornu<CR>i")
