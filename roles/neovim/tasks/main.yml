@@ -30,11 +30,12 @@
     repo: "{{ item.repo }}"
     dest: "{{ nvim_packpath }}/lsp/start/{{ item.name }}"
   with_items:
-    - { "name": "nvim-lspconfig", "repo": "https://github.com/neovim/nvim-lspconfig.git" }
-    - { "name": "cmp-nvim-lsp", "repo": "https://github.com/hrsh7th/cmp-nvim-lsp.git" }
-    - { "name": "nvim-cmp", "repo": "https://github.com/hrsh7th/nvim-cmp.git" }
+    - { "name": "cmp-buffer", "repo": "https://github.com/hrsh7th/cmp-buffer.git" }
     - { "name": "cmp-luasnip", "repo": "https://github.com/saadparwaiz1/cmp_luasnip.git" }
+    - { "name": "cmp-nvim-lsp", "repo": "https://github.com/hrsh7th/cmp-nvim-lsp.git" }
     - { "name": "luasnip", "repo": "https://github.com/L3MON4D3/LuaSnip.git" }
+    - { "name": "nvim-cmp", "repo": "https://github.com/hrsh7th/nvim-cmp.git" }
+    - { "name": "nvim-lspconfig", "repo": "https://github.com/neovim/nvim-lspconfig.git" }
 
 - name: Install navigation plugins
   git:

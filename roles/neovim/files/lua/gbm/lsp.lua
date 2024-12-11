@@ -1,12 +1,51 @@
+-- borders
+
+local border = {
+    border = "rounded"
+}
+
+local handlers = {
+    ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, border),
+    ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signatureHelp, border),
+}
+
+vim.diagnostic.config({ float = border })
+
+-- servers
+
 local lspcap = require("cmp_nvim_lsp").default_capabilities()
-local servers = { "gopls", "jedi_language_server" }
+local servers = { "gopls", "jedi_language_server", "terraformls", "zls" }
 
 for _, server in ipairs(servers) do
-    require("lspconfig")[server].setup{
+    require("lspconfig")[server].setup {
         capabilities = lspcap,
         handlers = handlers,
     }
 end
+
+vim.filetype.add({
+    extension = {
+        tf = "terraform",
+    }
+})
+
+-- formatting
+
+vim.api.nvim_create_autocmd("LspAttach", {
+    callback = function(args)
+        local client = vim.lsp.get_client_by_id(args.data.client_id)
+        if not client then return end
+
+        if client.supports_method("textDocument/formatting") then
+            vim.api.nvim_create_autocmd("BufWritePre", {
+                buffer = args.buf,
+                callback = function()
+                    vim.lsp.buf.format({ bufnr = args.buf, id = client.id })
+                end,
+            })
+        end
+    end,
+})
 
 -- completion
 
@@ -15,7 +54,8 @@ local luasnip = require("luasnip")
 cmp.setup({
     sources = {
         { name = "nvim_lsp" },
-        { name = 'luasnip' },
+        { name = "luasnip" },
+        { name = "buffer" },
     },
 
     snippet = {
@@ -30,20 +70,19 @@ cmp.setup({
     },
 
     mapping = cmp.mapping.preset.insert({
-        --["<CR>"] = cmp.mapping.confirm({ select = false }),
-        ["<CR>"] = cmp.mapping(function(fallback)
+        ["<C-y>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
                 if luasnip.expandable() then
                     luasnip.expand()
                 else
-                    cmp.confirm({ select = false })
+                    cmp.confirm({ select = true })
                 end
             else
                 fallback()
             end
         end),
 
-        ["<Tab>"] = cmp.mapping(function(fallback)
+        ["<C-l>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
                 cmp.select_next_item()
             elseif luasnip.locally_jumpable(1) then
@@ -53,7 +92,7 @@ cmp.setup({
             end
         end, { "i", "s" }),
 
-        ["<S-Tab>"] = cmp.mapping(function(fallback)
+        ["<C-h>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
                 cmp.select_prev_item()
             elseif luasnip.locally_jumpable(-1) then
@@ -62,6 +101,9 @@ cmp.setup({
                 fallback()
             end
         end, { "i", "s" }),
+
+        ["<C-u>"] = cmp.mapping.scroll_docs(-4),
+        ["<C-d>"] = cmp.mapping.scroll_docs(4),
     })
 })
 
@@ -83,15 +125,3 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end,
 })
 
--- borders
-
-local border = {
-    border = "rounded"
-}
-
-local handlers = {
-    ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, border),
-    ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signatureHelp, border),
-}
-
-vim.diagnostic.config({ float = { border = "rounded" }})
