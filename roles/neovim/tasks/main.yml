@@ -52,13 +52,11 @@
   with_items:
     - { "name": "moonfly", "repo": "https://github.com/bluz71/vim-moonfly-colors.git" }
 
-- name: Install language servers
+- name: Install clangd
   become: true
   apt:
     state: latest
-    pkg:
-      - clangd
-      - gopls
+    name: clangd
 
 - name: Install Python language server
   command:
