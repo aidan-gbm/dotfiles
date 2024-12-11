@@ -12,25 +12,53 @@
     dest: "{{ tools_bin }}/nvim"
     state: link
 
-- name: Install language servers
+- name: Create directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ nvim_cfg }}"
+    - "{{ nvim_packpath }}"
+
+- name: Setup config files
+  copy:
+    src: ./
+    dest: "{{ nvim_cfg }}"
+
+- name: Install LSP plugins
+  git:
+    repo: "{{ item.repo }}"
+    dest: "{{ nvim_packpath }}/lsp/start/{{ item.name }}"
+  with_items:
+    - { "name": "cmp-buffer", "repo": "https://github.com/hrsh7th/cmp-buffer.git" }
+    - { "name": "cmp-luasnip", "repo": "https://github.com/saadparwaiz1/cmp_luasnip.git" }
+    - { "name": "cmp-nvim-lsp", "repo": "https://github.com/hrsh7th/cmp-nvim-lsp.git" }
+    - { "name": "luasnip", "repo": "https://github.com/L3MON4D3/LuaSnip.git" }
+    - { "name": "nvim-cmp", "repo": "https://github.com/hrsh7th/nvim-cmp.git" }
+    - { "name": "nvim-lspconfig", "repo": "https://github.com/neovim/nvim-lspconfig.git" }
+
+- name: Install navigation plugins
+  git:
+    repo: "{{ item.repo }}"
+    dest: "{{ nvim_packpath }}/nav/{{ item.dest }}"
+  with_items:
+    - { "dest": "start/plenary.nvim", "repo": "https://github.com/nvim-lua/plenary.nvim.git" }
+    - { "dest": "opt/telescope.nvim", "repo": "https://github.com/nvim-telescope/telescope.nvim.git" }
+
+- name: Install colorscheme(s)
+  git:
+    repo: "{{ item.repo }}"
+    dest: "{{ nvim_packpath }}/colo/opt/{{ item.name }}"
+  with_items:
+    - { "name": "moonfly", "repo": "https://github.com/bluz71/vim-moonfly-colors.git" }
+
+- name: Install clangd
   become: true
   apt:
     state: latest
-    pkg:
-      - clangd
-      - gopls
+    name: clangd
 
 - name: Install Python language server
   command:
-    cmd: pip install -U jedi-language-server
+    cmd: pip install --user jedi-language-server
     creates: "{{ ansible_env.HOME }}/.local/bin/jedi-language-server"
-
-- name: Create neovim config directory
-  file:
-    path: /home/user/.config/nvim
-    state: directory
-
-- name: Setup config files
-  ansible.posix.synchronize:
-    src: .
-    dest: /home/user/.config/nvim

@@ -1,0 +1,5 @@
+---
+- name: install gopls
+  command: "{{ install_dir }}/go/bin/go install golang.org/x/tools/gopls@latest"
+  args:
+    creates: "{{ go_path }}/bin/gopls"

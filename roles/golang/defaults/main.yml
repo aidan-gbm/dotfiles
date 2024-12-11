@@ -1,0 +1,7 @@
+---
+go_version: "1.23.4"
+go_arch: "amd64"
+go_checksum: "sha256:6924efde5de86fe277676e929dc9917d466efa02fb934197bc2eba35d5680971"
+go_path: "{{ ansible_env.HOME }}/go"
+install_dir: "{{ ansible_env.HOME }}/.local"
+cache_dir: "{{ ansible_env.HOME }}/.cache/dotfiles"

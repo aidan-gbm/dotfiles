@@ -1,6 +1,9 @@
 ---
-nvim_version: "v0.9.5"
+nvim_version: "v0.10.1"
 
 nvim_releases_url: "https://github.com/neovim/neovim/releases/download"
 nvim_tarball: "nvim-linux64.tar.gz"
 nvim_bin: "nvim-linux64/bin"
+nvim_cfg: "{{ ansible_env.HOME }}/.config/nvim"
+
+nvim_packpath: "{{ ansible_env.HOME }}/.local/share/nvim/site/pack"

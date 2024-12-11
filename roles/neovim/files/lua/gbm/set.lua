@@ -1,5 +1,5 @@
 vim.opt.mouse = ""
-vim.opt.guicursor = ""
+vim.opt.guicursor = "a:block"
 
 vim.opt.number = true
 vim.opt.relativenumber = true
@@ -16,3 +16,6 @@ vim.opt.signcolumn = "no"
 
 vim.opt.incsearch = true
 vim.opt.hlsearch = true
+
+vim.opt.splitbelow = true
+vim.opt.splitright = true

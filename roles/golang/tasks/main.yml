@@ -1,0 +1,20 @@
+---
+- name: Ensure required directories exist
+  file:
+    path: "{{ item }}"
+    state: directory
+  loop:
+    - "{{ install_dir }}"
+    - "{{ cache_dir }}"
+
+- name: Download & verify Go release
+  get_url:
+    url: "https://go.dev/dl/go{{ go_version }}.linux-{{ go_arch }}.tar.gz"
+    dest: "{{ cache_dir }}/golang.tar.gz"
+    checksum: "{{ go_checksum }}"
+
+- name: Extract Go
+  unarchive:
+    src: "{{ cache_dir }}/golang.tar.gz"
+    dest: "{{ install_dir }}"
+  notify: install gopls
