@@ -62,7 +62,7 @@ if ! test -f "$repo/development.yml"; then
     fail cannot locate playbook
 fi
 
-ansible-playbook -K "$repo/development.yml"
+~/.local/bin/ansible-playbook -K "$repo/development.yml"
 
 if test $? -eq 0; then
     info setup complete
