@@ -36,6 +36,7 @@
     - { "name": "luasnip", "repo": "https://github.com/L3MON4D3/LuaSnip.git" }
     - { "name": "nvim-cmp", "repo": "https://github.com/hrsh7th/nvim-cmp.git" }
     - { "name": "nvim-lspconfig", "repo": "https://github.com/neovim/nvim-lspconfig.git" }
+    - { "name": "treesitter", "repo": "https://github.com/nvim-treesitter/nvim-treesitter.git" }
 
 - name: Install navigation plugins
   git:

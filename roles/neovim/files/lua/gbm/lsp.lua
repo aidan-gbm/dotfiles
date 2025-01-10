@@ -11,6 +11,15 @@ local handlers = {
 
 vim.diagnostic.config({ float = border })
 
+-- treesitter
+
+require("nvim-treesitter.configs").setup({
+    ensure_installed = { "c", "lua", "vim", "vimdoc", "python", "go" },
+    sync_install = false,
+    highlight = { enable = true },
+    indent = { enable = true },
+})
+
 -- servers
 
 local lspcap = require("cmp_nvim_lsp").default_capabilities()
