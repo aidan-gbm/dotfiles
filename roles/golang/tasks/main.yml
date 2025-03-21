@@ -4,7 +4,7 @@
     path: "{{ item }}"
     state: directory
   loop:
-    - "{{ install_dir }}"
+    - "{{ local_dir }}"
     - "{{ cache_dir }}"
 
 - name: Download & verify Go release
@@ -16,5 +16,19 @@
 - name: Extract Go
   unarchive:
     src: "{{ cache_dir }}/golang.tar.gz"
-    dest: "{{ install_dir }}"
+    dest: "{{ local_dir }}"
   notify: install gopls
+
+- name: Create symlinks
+  file:
+    src: "{{ local_dir }}/go/bin/{{ item }}"
+    dest: "{{ local_bin }}/{{ item }}"
+    state: link
+  with_items:
+    - go
+    - gofmt
+
+- name: Add Go install path to PATH
+  copy:
+    content: "export PATH=$PATH:{{ go_path }}/bin\n"
+    dest: "{{ paths_dir }}/go_bin.sh"
