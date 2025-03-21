@@ -9,30 +9,33 @@ fail() {
     exit 1
 }
 
-### Install Dependencies ###
+### Check Dependencies ###
+
+python=$(command -v python3)
+if test $? -ne 0; then
+    fail missing python3 dependency
+fi
 
 if ! test -f /etc/os-release; then
-    fail cannot determine OS
+    fail missing os-release - cannot verify OS
 fi
 
 OS=$(sed -nr 's/^ID=(.*)$/\1/p' /etc/os-release)
 
 case $OS in
-    alpine)
-        alias update='sudo apk -qq update'
-        alias install='sudo apk -qq add'
-        ;;
     debian|ubuntu)
-        export DEBIAN_FRONTEND=noninteractive
-        alias update='sudo -E apt-get -qq update'
-        alias install='sudo -E apt-get -qq install'
+        dpkg-query -S python3-venv >/dev/null 2>&1
+        if test $? -ne 0; then
+            fail missing python3-venv dependency
+        fi
         ;;
+    alpine) ;;
     *)
-        fail unsupported OS: $OS ;;
+        fail unsupported OS: $OS
+        ;;
 esac
 
-info installing dependencies for $OS
-update && install python3 python3-venv
+info validated dependencies
 
 ### Setup Python Virtual Environment ###
 
@@ -47,25 +50,38 @@ if test -d "$venv"; then
     fi
 else
     info creating virtual environment
-    python3 -m venv --system-site-packages "$venv"
+    $python -m venv --system-site-packages "$venv"
 fi
 
 . "$venv/bin/activate"
+if test $? -ne 0; then
+    fail could not activate python venv
+fi
 
 ### Run Ansible Playbook ###
 
 info installing ansible
 pip install -qq --user ansible
-
-repo=$(dirname -- "$0")
-if ! test -f "$repo/development.yml"; then
-    fail cannot locate playbook
+if test $? -ne 0; then
+    fail ansible install failed
 fi
 
-~/.local/bin/ansible-playbook "$repo/development.yml"
+repo=$(dirname -- "$0")
+playbook="$repo/main.yml"
+if ! test -f "$playbook"; then
+    fail cannot locate playbook $playbook
+fi
 
+export ANSIBLE_LOCALHOST_WARNING=False
+export ANSIBLE_INVENTORY_UNPARSED_WARNING=False
+
+$HOME/.local/bin/ansible-playbook -K "$playbook"
 if test $? -eq 0; then
     info setup complete
 else
     fail ansible failed
+fi
+
+if test -f $HOME/.bashrc; then
+    . $HOME/.bashrc
 fi

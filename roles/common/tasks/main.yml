@@ -4,21 +4,22 @@
     path: "{{ item }}"
     state: directory
   with_items:
+    - "{{ local_dir }}"
     - "{{ tools_dir }}"
-    - "{{ tools_bin }}"
+    - "{{ paths_dir }}"
+    - "{{ local_bin }}"
 
-- name: Install dotfiles
+- name: Install bashrc
   copy:
-    src: "{{ item.src }}"
-    dest: "{{ ansible_env.HOME }}/{{ item.dest }}"
-  with_items:
-    - { src: "bashrc", dest: ".bashrc" }
-    - { src: "tmux.conf", dest: ".tmux.conf" }
+    src: "bashrc"
+    dest: "{{ ansible_env.HOME }}/.bashrc"
 
-- name: Install CLI utilities
+- name: Add local bin to PATH
+  copy:
+    content: "export PATH=$PATH:{{ local_bin }}\n"
+    dest: "{{ paths_dir }}/local_bin.sh"
+
+- name: Update apt cache
   become: true
   apt:
-    state: latest
-    pkg:
-      - tmux
-      - git
+    update_cache: true

@@ -1,4 +1,10 @@
 ---
+- name: Install git
+  become: true
+  apt:
+    name: git
+    state: latest
+
 - name: Download neovim
   unarchive:
     src: "{{ nvim_releases_url }}/{{ nvim_version }}/{{ nvim_tarball }}"
@@ -9,49 +15,18 @@
 - name: Install neovim symlink
   file:
     src: "{{ tools_dir }}/{{ nvim_bin }}/nvim"
-    dest: "{{ tools_bin }}/nvim"
+    dest: "{{ local_bin }}/nvim"
     state: link
 
-- name: Create directories
+- name: Create config directory
   file:
-    path: "{{ item }}"
+    path: "{{ nvim_cfg }}"
     state: directory
-  with_items:
-    - "{{ nvim_cfg }}"
-    - "{{ nvim_packpath }}"
 
 - name: Setup config files
   copy:
     src: ./
     dest: "{{ nvim_cfg }}"
-
-- name: Install LSP plugins
-  git:
-    repo: "{{ item.repo }}"
-    dest: "{{ nvim_packpath }}/lsp/start/{{ item.name }}"
-  with_items:
-    - { "name": "cmp-buffer", "repo": "https://github.com/hrsh7th/cmp-buffer.git" }
-    - { "name": "cmp-luasnip", "repo": "https://github.com/saadparwaiz1/cmp_luasnip.git" }
-    - { "name": "cmp-nvim-lsp", "repo": "https://github.com/hrsh7th/cmp-nvim-lsp.git" }
-    - { "name": "luasnip", "repo": "https://github.com/L3MON4D3/LuaSnip.git" }
-    - { "name": "nvim-cmp", "repo": "https://github.com/hrsh7th/nvim-cmp.git" }
-    - { "name": "nvim-lspconfig", "repo": "https://github.com/neovim/nvim-lspconfig.git" }
-    - { "name": "treesitter", "repo": "https://github.com/nvim-treesitter/nvim-treesitter.git" }
-
-- name: Install navigation plugins
-  git:
-    repo: "{{ item.repo }}"
-    dest: "{{ nvim_packpath }}/nav/{{ item.dest }}"
-  with_items:
-    - { "dest": "start/plenary.nvim", "repo": "https://github.com/nvim-lua/plenary.nvim.git" }
-    - { "dest": "opt/telescope.nvim", "repo": "https://github.com/nvim-telescope/telescope.nvim.git" }
-
-- name: Install colorscheme(s)
-  git:
-    repo: "{{ item.repo }}"
-    dest: "{{ nvim_packpath }}/colo/opt/{{ item.name }}"
-  with_items:
-    - { "name": "moonfly", "repo": "https://github.com/bluz71/vim-moonfly-colors.git" }
 
 - name: Install clangd
   become: true
@@ -59,7 +34,7 @@
     state: latest
     name: clangd
 
-- name: Install Python language server
+- name: Install jedi-language-server
   command:
-    cmd: pip install --user jedi-language-server
+    cmd: pip install --upgrade --user jedi-language-server
     creates: "{{ ansible_env.HOME }}/.local/bin/jedi-language-server"
