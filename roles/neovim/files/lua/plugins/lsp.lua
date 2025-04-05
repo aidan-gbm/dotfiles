@@ -50,6 +50,9 @@ return {
         dependencies = {
             "nvim-telescope/telescope.nvim",
             "hrsh7th/cmp-nvim-lsp",
+
+            -- indirect
+            "hrsh7th/nvim-cmp",
         },
         lazy = false,
         config = function()

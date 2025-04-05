@@ -15,48 +15,43 @@ local setup = function()
             documentation = cmp.config.window.bordered(),
         },
 
+        formatting = {
+            format = function(entry, vim_item)
+                vim_item.menu = ({
+                    nvim_lsp = "[LSP]",
+                    luasnip = "[LuaSnip]",
+                    buffer = "[Buffer]",
+                    path = "[Path]",
+                })[entry.source.name]
+                return vim_item
+            end
+        },
+
         snippet = {
             expand = function(args)
                 luasnip.lsp_expand(args.body)
             end
         },
 
-        mapping = {
-            ["<C-y>"] = cmp.mapping(function(fallback)
-                if cmp.visible() and cmp.get_active_entry() then
-                    if luasnip.expandable() then
-                        luasnip.expand()
-                    else
-                        cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true })
-                    end
-                else
-                    fallback()
-                end
-            end),
-
-            ["<C-l>"] = cmp.mapping(function(fallback)
-                if cmp.visible() then
-                    cmp.select_next_item()
-                elseif luasnip.locally_jumpable(1) then
-                    luasnip.jump(1)
-                else
-                    fallback()
-                end
-            end, { "i", "s" }),
-
+        mapping = cmp.mapping.preset.insert({
+            ["<C-y>"] = cmp.mapping.confirm({ select = true }),
             ["<C-h>"] = cmp.mapping(function(fallback)
-                if cmp.visible() then
-                    cmp.select_prev_item()
-                elseif luasnip.locally_jumpable(-1) then
+                if luasnip.locally_jumpable(-1) then
                     luasnip.jump(-1)
                 else
                     fallback()
                 end
             end, { "i", "s" }),
-
+            ["<C-l>"] = cmp.mapping(function(fallback)
+                if luasnip.locally_jumpable(1) then
+                    luasnip.jump(1)
+                else
+                    fallback()
+                end
+            end, { "i", "s" }),
             ["<C-u>"] = cmp.mapping.scroll_docs(-4),
             ["<C-d>"] = cmp.mapping.scroll_docs(4),
-        }
+        })
     })
 end
 
@@ -71,6 +66,6 @@ return {
             "saadparwaiz1/cmp_luasnip",
         },
         config = setup,
-        lazy = false,
+        lazy = true,
     },
 }
