@@ -1,21 +1,24 @@
-vim.opt.mouse = ""
-vim.opt.guicursor = "a:block"
+local set = vim.opt
 
-vim.opt.number = true
-vim.opt.relativenumber = true
-vim.opt.scrolloff = 8
+set.mouse = ""
+set.guicursor = "a:block"
 
-vim.opt.tabstop = 4
-vim.opt.softtabstop = 4
-vim.opt.shiftwidth = 4
-vim.opt.expandtab = true
-vim.opt.smartindent = true
+set.number = true
+set.relativenumber = true
+set.scrolloff = 8
 
-vim.opt.colorcolumn = "80"
-vim.opt.signcolumn = "no"
+set.shiftwidth = 4
+set.softtabstop = 4
+set.expandtab = false
+set.cindent = true
 
-vim.opt.incsearch = true
-vim.opt.hlsearch = true
+set.colorcolumn = "80"
+set.signcolumn = "no"
 
-vim.opt.splitbelow = true
-vim.opt.splitright = true
+set.incsearch = true
+set.hlsearch = true
+
+set.splitbelow = true
+set.splitright = true
+
+set.winborder = "rounded"

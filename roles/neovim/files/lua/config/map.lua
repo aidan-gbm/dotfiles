@@ -15,7 +15,4 @@ vim.keymap.set("n", "<C-d>", "<C-d>zz")
 -- terminal
 vim.keymap.set("n", "<leader>%", ":vsplit term://bash<CR>:set nonumber nornu<CR>i")
 vim.keymap.set("n", "<leader>\"", ":split term://bash<CR>:set nonumber nornu<CR>i")
-vim.keymap.set("t", "<A-h>", "<C-\\><C-N><C-w>h", { noremap = true })
-vim.keymap.set("t", "<A-j>", "<C-\\><C-N><C-w>j", { noremap = true })
-vim.keymap.set("t", "<A-k>", "<C-\\><C-N><C-w>k", { noremap = true })
-vim.keymap.set("t", "<A-l>", "<C-\\><C-N><C-w>l", { noremap = true })
+vim.keymap.set("t", "<ESC>", "<C-\\><C-N>", { noremap = true })

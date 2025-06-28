@@ -1,7 +1,25 @@
 local servers = {
-    clangd = true,
+    clangd = {
+        filetypes = { "c", "cpp" },
+    },
     gopls = true,
-    jedi_language_server = true,
+    ruff = {
+	init_options = {
+	    settings = {
+		lineLength = 80,
+	    }
+	}
+    },
+    pyright = {
+	settings = {
+	    python = {
+		analysis = {
+		    useLibraryCodeForTypes = true,
+		},
+		typeCheckingMode = "off",
+	    }
+	}
+    },
     terraformls = true,
 }
 
@@ -12,31 +30,21 @@ vim.filetype.add({
 })
 
 local attach = function(args)
-    local bufnr = args.buf
     local client = assert(
         vim.lsp.get_client_by_id(args.data.client_id),
         "no valid client"
     )
 
-    vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
-
-    local opts = { buffer = bufnr }
-    local builtin = require("telescope.builtin")
-    vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-    vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
-    vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
-
-    vim.keymap.set("n", "gd", builtin.lsp_definitions, opts)
-    vim.keymap.set("n", "gr", builtin.lsp_references, opts)
-    vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
-    vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, opts)
+    if client.name == "ruff" then
+	client.server_capabilities.hoverProvider = false
+    end
 
     if client.supports_method("textDocument/formatting") then
         vim.api.nvim_create_autocmd("BufWritePre", {
-            buffer = bufnr,
+            buffer = args.buf,
             callback = function()
                 vim.lsp.buf.format({
-                    bufnr = bufnr,
+                    bufnr = args.buf,
                     id = client.id
                 })
             end,
@@ -56,7 +64,6 @@ return {
         },
         lazy = false,
         config = function()
-            local lspconfig = require("lspconfig")
             local capabilities = require("cmp_nvim_lsp").default_capabilities()
             for name, config in pairs(servers) do
                 if config == true then
@@ -67,10 +74,22 @@ return {
                     capabilities = capabilities,
                 }, config)
 
-                lspconfig[name].setup(config)
+                vim.lsp.config(name, config)
+		vim.lsp.enable(name)
             end
 
-            vim.api.nvim_create_autocmd("LspAttach", { callback = attach })
+	    local builtin = require("telescope.builtin")
+	    vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
+	    vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, {})
+	    vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, {})
+
+	    vim.keymap.set("n", "gd", builtin.lsp_definitions, {})
+	    vim.keymap.set("n", "gr", builtin.lsp_references, {})
+	    vim.keymap.set("n", "gD", vim.lsp.buf.declaration, {})
+	    vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, {})
+	    vim.keymap.set("n", "ga", vim.lsp.buf.code_action, {})
+
+	    vim.api.nvim_create_autocmd("LspAttach", { callback = attach })
         end,
     }
 }
