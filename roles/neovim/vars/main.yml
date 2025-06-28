@@ -1,5 +1,5 @@
 ---
-nvim_version: "v0.10.4"
+nvim_version: "v0.11.2"
 
 nvim_releases_url: "https://github.com/neovim/neovim/releases/download"
 nvim_tarball: "nvim-linux-x86_64.tar.gz"
