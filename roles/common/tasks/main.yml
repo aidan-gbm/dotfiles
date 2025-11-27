@@ -4,6 +4,7 @@
     path: "{{ item }}"
     state: directory
   with_items:
+    - "{{ cache_dir }}"
     - "{{ local_dir }}"
     - "{{ tools_dir }}"
     - "{{ paths_dir }}"
@@ -18,8 +19,3 @@
   copy:
     content: "export PATH=$PATH:{{ local_bin }}\n"
     dest: "{{ paths_dir }}/local_bin.sh"
-
-- name: Update apt cache
-  become: true
-  apt:
-    update_cache: true

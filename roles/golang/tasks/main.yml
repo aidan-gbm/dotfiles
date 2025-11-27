@@ -1,34 +1,14 @@
 ---
-- name: Ensure required directories exist
-  file:
-    path: "{{ item }}"
-    state: directory
-  loop:
-    - "{{ local_dir }}"
-    - "{{ cache_dir }}"
-
-- name: Download & verify Go release
+- name: Download release package
   get_url:
-    url: "https://go.dev/dl/go{{ go_version }}.linux-{{ go_arch }}.tar.gz"
+    url: "https://go.dev/dl/go{{ go_version }}.linux-amd64.tar.gz"
     dest: "{{ cache_dir }}/golang.tar.gz"
     checksum: "{{ go_checksum }}"
+  notify:
+    - extract golang
+    - install gopls
 
-- name: Extract Go
-  unarchive:
-    src: "{{ cache_dir }}/golang.tar.gz"
-    dest: "{{ local_dir }}"
-  notify: install gopls
-
-- name: Create symlinks
-  file:
-    src: "{{ local_dir }}/go/bin/{{ item }}"
-    dest: "{{ local_bin }}/{{ item }}"
-    state: link
-  with_items:
-    - go
-    - gofmt
-
-- name: Add Go install path to PATH
+- name: Add to PATH
   copy:
-    content: "export PATH=$PATH:{{ go_path }}/bin\n"
+    content: "export PATH=$PATH:{{ go_bin }}\n"
     dest: "{{ paths_dir }}/go_bin.sh"

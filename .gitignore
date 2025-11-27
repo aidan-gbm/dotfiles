@@ -1,1 +1,4 @@
 **venv
+
+# nvim runtime config
+roles/neovim/files/config/lazy-lock.json

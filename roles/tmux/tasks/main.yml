@@ -1,11 +1,6 @@
 ---
-- name: Install tmux
-  become: true
-  apt:
-    name: tmux
-    state: latest
-
-- name: Copy config file
-  copy:
-    src: tmux.conf
+- name: Install config file
+  file:
+    src: "{{ role_path }}/files/tmux.conf"
     dest: "{{ ansible_env.HOME }}/.tmux.conf"
+    state: link

@@ -1,6 +1,8 @@
 ---
+- name: extract golang
+  unarchive:
+    src: "{{ cache_dir }}/golang.tar.gz"
+    dest: "{{ tools_dir }}"
+
 - name: install gopls
-  command: "{{ local_dir }}/go/bin/go install golang.org/x/tools/gopls@latest"
-  args:
-    creates: "{{ go_path }}/bin/gopls"
-  notify: update path
+  command: "{{ go_bin }}/go install golang.org/x/tools/gopls@latest"

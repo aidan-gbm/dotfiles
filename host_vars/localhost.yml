@@ -1,4 +1,5 @@
 ---
+cache_dir: "{{ ansible_env.HOME }}/.cache/dotfiles"
 local_dir: "{{ ansible_env.HOME }}/.local"
 tools_dir: "{{ ansible_env.HOME }}/.tools"
 paths_dir: "{{ local_dir }}/path.d"

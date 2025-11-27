@@ -1,0 +1,15 @@
+---
+- name: extract neovim
+  unarchive:
+    src: "{{ cache_dir }}/nvim.tar.gz"
+    dest: "{{ tools_dir }}"
+    remote_src: true
+
+- name: install neovim
+  file:
+    src: "{{ nvim_bin }}/nvim"
+    dest: "{{ local_bin }}/{{ item }}"
+    state: link
+  with_items:
+    - nvim
+    - vim
