@@ -13,7 +13,7 @@
 - name: Install bashrc
   copy:
     src: "bashrc"
-    dest: "{{ ansible_env.HOME }}/.bashrc"
+    dest: "{{ ansible_facts['env']['HOME'] }}/.bashrc"
 
 - name: Add local bin to PATH
   copy:

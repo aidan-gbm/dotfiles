@@ -4,4 +4,4 @@ nvim_checksum: "sha256:b2f91117be5b5ea39edd7297156dc2a4a8df4add6c95a90809a8df19e
 
 nvim_releases_url: "https://github.com/neovim/neovim/releases/download"
 nvim_bin: "{{ tools_dir }}/nvim-linux-x86_64/bin"
-nvim_cfg: "{{ ansible_env.HOME }}/.config/nvim"
+nvim_cfg: "{{ ansible_facts['env']['HOME'] }}/.config/nvim"

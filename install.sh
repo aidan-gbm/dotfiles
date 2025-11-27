@@ -72,10 +72,10 @@ if ! test -f "$playbook"; then
     fail cannot locate playbook $playbook
 fi
 
-ANSIBLE_LOCALHOST_WARNING=False
-ANSIBLE_INVENTORY_UNPARSED_WARNING=False
-
+ANSIBLE_LOCALHOST_WARNING=False \
+ANSIBLE_INVENTORY_UNPARSED_WARNING=False \
 $HOME/.local/bin/ansible-playbook "$playbook"
+
 if test $? -eq 0; then
     info setup complete
 else

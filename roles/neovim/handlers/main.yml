@@ -3,7 +3,6 @@
   unarchive:
     src: "{{ cache_dir }}/nvim.tar.gz"
     dest: "{{ tools_dir }}"
-    remote_src: true
 
 - name: install neovim
   file:
