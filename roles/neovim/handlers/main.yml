@@ -6,9 +6,31 @@
 
 - name: install neovim
   file:
-    src: "{{ nvim_bin }}/nvim"
+    src: "{{ tools_dir }}/nvim-linux-x86_64/bin/nvim"
     dest: "{{ local_bin }}/{{ item }}"
     state: link
   with_items:
     - nvim
     - vim
+
+- name: extract tree-sitter
+  shell: |
+    gzip -dc {{ cache_dir }}/tree-sitter.gz > {{ local_bin }}/tree-sitter
+    chmod +x {{ local_bin }}/tree-sitter
+
+- name: mkdir lua-ls
+  file:
+    path: "{{ tools_dir }}/lua_ls"
+    state: directory
+    mode: "0755"
+
+- name: extract lua-ls
+  unarchive:
+    src: "{{ cache_dir }}/lua-ls.tar.gz"
+    dest: "{{ tools_dir }}/lua_ls"
+
+- name: symlink lua-ls
+  file:
+    src: "{{ tools_dir }}/lua_ls/bin/lua-language-server"
+    dest: "{{ local_bin }}/lua-language-server"
+    state: link

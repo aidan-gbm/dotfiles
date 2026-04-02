@@ -6,9 +6,10 @@
     checksum: "{{ go_checksum }}"
   notify:
     - extract golang
+    - install golang
     - install gopls
 
 - name: Add to PATH
   copy:
-    content: "export PATH=$PATH:{{ go_bin }}\n"
+    content: "export PATH=$PATH:{{ go_path }}/bin\n"
     dest: "{{ paths_dir }}/go_bin.sh"

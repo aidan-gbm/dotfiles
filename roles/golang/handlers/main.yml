@@ -4,5 +4,14 @@
     src: "{{ cache_dir }}/golang.tar.gz"
     dest: "{{ tools_dir }}"
 
+- name: install golang
+  file:
+    src: "{{ go_bin }}/{{ item }}"
+    dest: "{{ local_bin }}/{{ item }}"
+    state: link
+  with_items:
+    - go
+    - gofmt
+
 - name: install gopls
   command: "{{ go_bin }}/go install golang.org/x/tools/gopls@latest"

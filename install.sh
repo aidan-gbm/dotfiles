@@ -81,7 +81,3 @@ if test $? -eq 0; then
 else
     fail ansible failed
 fi
-
-if test -f $HOME/.bashrc; then
-    . $HOME/.bashrc
-fi

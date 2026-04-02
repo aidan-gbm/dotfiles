@@ -13,3 +13,20 @@
     src: "{{ role_path }}/files/config"
     path: "{{ nvim_cfg }}"
     state: link
+
+- name: Download tree-sitter release package
+  get_url:
+    url: "{{ ts_releases_url }}/{{ ts_version }}/tree-sitter-linux-x64.gz"
+    dest: "{{ cache_dir }}/tree-sitter.gz"
+    checksum: "{{ ts_checksum }}"
+  notify: extract tree-sitter
+
+- name: Download lua-ls release package
+  get_url:
+    url: "{{ luals_releases_url }}/{{ luals_version }}/lua-language-server-{{ luals_version }}-linux-x64.tar.gz"
+    dest: "{{ cache_dir }}/lua-ls.tar.gz"
+    checksum: "{{ luals_checksum }}"
+  notify:
+    - mkdir lua-ls
+    - extract lua-ls
+    - symlink lua-ls

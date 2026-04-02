@@ -1,7 +1,14 @@
 ---
-nvim_version: "v0.11.5"
-nvim_checksum: "sha256:b2f91117be5b5ea39edd7297156dc2a4a8df4add6c95a90809a8df19e7ab6f52"
-
-nvim_releases_url: "https://github.com/neovim/neovim/releases/download"
-nvim_bin: "{{ tools_dir }}/nvim-linux-x86_64/bin"
 nvim_cfg: "{{ ansible_facts['env']['HOME'] }}/.config/nvim"
+
+nvim_version: "v0.12.0"
+nvim_checksum: "sha256:160b69125defb16e60b283b69be112fd4850d67ac8f9a752328c20ad43ec34af"
+nvim_releases_url: "https://github.com/neovim/neovim/releases/download"
+
+ts_version: "v0.26.8"
+ts_checksum: "sha256:9754a32800f0b970152782df177b4a47c711e34e651a7aceb384d8bd29fa136e"
+ts_releases_url: "https://github.com/tree-sitter/tree-sitter/releases/download"
+
+luals_version: "3.17.1"
+luals_checksum: "sha256:248b0858a0afc8233f2535e89b648398b2202cb96cf51ce187e3263923dd0223"
+luals_releases_url: "https://github.com/LuaLS/lua-language-server/releases/download/"
